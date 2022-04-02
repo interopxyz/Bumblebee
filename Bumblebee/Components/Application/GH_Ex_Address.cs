@@ -2,19 +2,18 @@
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
-namespace Bumblebee.Components
+namespace Bumblebee.Components.Application
 {
-    public class GH_Ex_Wb_Load : GH_Component
+    public class GH_Ex_Address : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_Ex_Wb_Load class.
+        /// Initializes a new instance of the GH_Ex_Address class.
         /// </summary>
-        public GH_Ex_Wb_Load()
-          : base("Load Workbook", "Load Workbook",
-              "Load a workbook from a filepath.",
-              Constants.ShortName, "Workbook")
+        public GH_Ex_Address()
+          : base("Cell Address", "XL Address",
+              "Description",
+              Constants.ShortName, "App")
         {
         }
 
@@ -23,7 +22,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.quarternary; }
+            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -31,9 +30,14 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("App", "App", "The Excel application", GH_ParamAccess.item);
-            pManager.AddTextParameter("File Path", "P", "The name of an active Workbook", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Column", "C", "Column Index", GH_ParamAccess.item, 0);
+            pManager[0].Optional = true;
+            pManager.AddIntegerParameter("Row", "R", "Row Index", GH_ParamAccess.item, 0);
             pManager[1].Optional = true;
+            pManager.AddBooleanParameter("Absolute Column", "AC", "Set absolute value for column", GH_ParamAccess.item, false);
+            pManager[2].Optional = true;
+            pManager.AddBooleanParameter("Absolute Row", "AR", "Set absolute value for row", GH_ParamAccess.item, false);
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -41,8 +45,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Address", "A", "The resulting cell address", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -51,23 +54,21 @@ namespace Bumblebee.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            ExApp app = null;
-            string name = string.Empty;
+            int col = 0;
+            DA.GetData(0, ref col);
 
-            ExWorkbook workbook = null;
+            int row = 0;
+            DA.GetData(1, ref row);
 
-            if (!DA.GetData<ExApp>(0, ref app)) return;
-            if (!DA.GetData(1, ref name)) return;
+            bool absC = false;
+            DA.GetData(2, ref absC);
 
-            if(!File.Exists(name))
-            {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "The file provided path does not exist. Please verify this is a valid file path.");
-                return;
-            }
+            bool absR = false;
+            DA.GetData(3, ref absR);
 
-            workbook = app.LoadWorkbook(name);
+            
 
-            DA.SetData(0, workbook);
+            DA.SetData(0, Helper.GetCellAddress(col,row,absC,absR));
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Address_01;
             }
         }
 
@@ -88,7 +89,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("ca5fead8-0a4a-46bc-9b8c-178477198957"); }
+            get { return new Guid("a922d90f-a323-478a-af0c-2782431179e3"); }
         }
     }
 }

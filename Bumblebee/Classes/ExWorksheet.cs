@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Sd = System.Drawing;
+
 using XL = Microsoft.Office.Interop.Excel;
 
 namespace Bumblebee
@@ -74,37 +76,48 @@ namespace Bumblebee
             Tuple<int, int> location = Helper.GetCellLocation(source);
 
             int x = data[0].Values.Count;
-            int y = data.Count + 1;
+            int y = data.Count;
 
-            string[,] values = new string[y, x];
+            string[,] values = new string[x+1, y+1];
 
             for (int i = 0; i < data[0].Columns.Count; i++)
             {
                 values[0, i] = data[0].Columns[i];
             }
 
-                for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i < x; i++)
             {
-                for (int j = 0; j < data[i].Columns.Count; j++)
+                for (int j = 0; j < y; j++)
                 {
-                    values[i+1, j] = data[i].Values[j];
+                    values[i + 1, j] = data[i].Values[j];
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x, location.Item2 + y-2);
+            string target = Helper.GetCellAddress(location.Item1 + x-1, location.Item2 + y-1);
 
             this.ComObj.Range[source, target].Value = values;
 
             for (int i = 0; i < data[0].Columns.Count; i++)
             {
 
-                this.ComObj.Columns[location.Item2+i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                this.ComObj.Columns[location.Item2 + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
 
-            //    string start = Helper.GetCellAddress(location.Item1 + i, location.Item2);
-            //    string end = Helper.GetCellAddress(location.Item1 + i, location.Item2 + y);
-            //    string format = "\"" + data[0].Formats[i] + "\"";
-            //this.ComObj.Cells[start, end].NumberFormat = format;
+                //    string start = Helper.GetCellAddress(location.Item1 + i, location.Item2);
+                //    string end = Helper.GetCellAddress(location.Item1 + i, location.Item2 + y);
+                //    string format = "\"" + data[0].Formats[i] + "\"";
+                //this.ComObj.Cells[start, end].NumberFormat = format;
             }
+
+
+        }
+
+        #endregion
+
+        #region graphics
+
+        public void ColorCells()
+        {
+            this.ComObj.Range["A1", "B2"].Interior.Color = Sd.Color.Red;
         }
 
         #endregion

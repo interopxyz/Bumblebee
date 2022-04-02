@@ -41,7 +41,7 @@ namespace Bumblebee.Components
         {
             pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.list);
             pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.list);
-            pManager.AddGenericParameter("App", "A", "The parent application.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
         }
 
         /// <summary>

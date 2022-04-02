@@ -62,7 +62,9 @@
     <Compile Include="Classes\ExData.cs" />
     <Compile Include="Classes\ExWorkbook.cs" />
     <Compile Include="Classes\ExWorksheet.cs" />
+    <Compile Include="Components\Application\GH_Ex_Address.cs" />
     <Compile Include="Components\Application\GH_Ex_App.cs" />
+    <Compile Include="Components\Application\GH_Ex_Location.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_CompileData.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_WriteData.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_Activate.cs" />
@@ -74,6 +76,11 @@
     <Compile Include="Components\Worksheets\GH_Ex_Ws_Get.cs" />
     <Compile Include="Components\Worksheets\GH_Ex_Ws_GetAll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Helper.cs" />
   </ItemGroup>
@@ -108,6 +115,36 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bumblebee-Logo-16c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-App-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Address-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Dataset-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Location-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-DataSet-01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

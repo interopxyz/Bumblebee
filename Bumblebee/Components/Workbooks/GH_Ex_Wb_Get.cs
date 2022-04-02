@@ -30,7 +30,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("App", "A", "The Excel application", GH_ParamAccess.item);
+            pManager.AddGenericParameter("App", "App", "The Excel application", GH_ParamAccess.item);
             pManager.AddTextParameter("Name", "N", "The name of an active Workbook", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
@@ -40,8 +40,8 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Workbook", "W", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("App", "A", "The parent application.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Book_01;
             }
         }
 

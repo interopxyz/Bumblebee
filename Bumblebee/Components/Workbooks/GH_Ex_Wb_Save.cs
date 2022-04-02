@@ -31,7 +31,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Workbook", "W", "The Excel Workbook object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
             pManager.AddTextParameter("Folder Path", "F", "The path to the workbook", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager.AddTextParameter("File Name", "N", "The workbook name", GH_ParamAccess.item);
@@ -45,8 +45,8 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Workbook", "W", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddTextParameter("FilePath", "A", "The full filepath to the saved file", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
+            pManager.AddTextParameter("FilePath", "P", "The full filepath to the saved file", GH_ParamAccess.item);
         }
 
         /// <summary>

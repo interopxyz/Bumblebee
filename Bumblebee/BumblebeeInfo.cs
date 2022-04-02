@@ -1,4 +1,5 @@
-﻿using Grasshopper.Kernel;
+﻿using Grasshopper;
+using Grasshopper.Kernel;
 using System;
 using System.Drawing;
 
@@ -52,6 +53,18 @@ namespace Bumblebee
                 //Return a string representing your preferred contact details.
                 return "";
             }
+        }
+    }
+
+    public class BitmapPlusCategoryIcon : GH_AssemblyPriority
+    {
+        public object Properties { get; private set; }
+
+        public override GH_LoadingInstruction PriorityLoad()
+        {
+            Instances.ComponentServer.AddCategoryIcon(Constants.ShortName, Bumblebee.Properties.Resources.Bumblebee_Logo_16c);
+            Instances.ComponentServer.AddCategorySymbolName(Constants.ShortName, 'B');
+            return GH_LoadingInstruction.Proceed;
         }
     }
 }

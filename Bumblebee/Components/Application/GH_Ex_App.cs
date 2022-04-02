@@ -38,7 +38,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Application Object", "A", "The currently active instance of Excel", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Application Object", "App", "The currently active instance of Excel", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_App_01;
             }
         }
 

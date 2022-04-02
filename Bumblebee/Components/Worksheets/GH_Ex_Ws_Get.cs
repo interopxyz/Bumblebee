@@ -43,7 +43,7 @@ namespace Bumblebee.Components
         {
             pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.item);
             pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("App", "A", "The parent application.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Sheet_01;
             }
         }
 

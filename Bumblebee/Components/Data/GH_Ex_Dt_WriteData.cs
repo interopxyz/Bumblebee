@@ -34,7 +34,7 @@ namespace Bumblebee.Components
         {
             pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
             pManager.AddTextParameter("Cell Address", "A", "The cell address to start writing to in standard address format. (ex. A1", GH_ParamAccess.item, "A1");
-            pManager.AddGenericParameter("Data", "Da", "The dataset to write to excel", GH_ParamAccess.list);
+            pManager.AddGenericParameter("DataSet", "Ds", "The dataset to write to excel", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -76,6 +76,7 @@ namespace Bumblebee.Components
             if (!DA.GetDataList(2, data)) return;
 
             worksheet.WriteData(data, address);
+            worksheet.ColorCells();
 
         }
 
@@ -88,7 +89,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Sheet_Dataset_01;
             }
         }
 
