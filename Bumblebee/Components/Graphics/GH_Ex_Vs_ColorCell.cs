@@ -3,27 +3,20 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using Sd = System.Drawing;
 
-namespace Bumblebee.Components
+namespace Bumblebee.Components.Appearance
 {
-    public class GH_Ex_Dt_WriteData : GH_Component
+    public class GH_Ex_Vs_ColorCell : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_WriteData class.
+        /// Initializes a new instance of the GH_Ex_Vs_ColorCell class.
         /// </summary>
-        public GH_Ex_Dt_WriteData()
-          : base("Write Data", "XL Write",
-              "Write data to excel",
-              Constants.ShortName, Constants.SubData)
+        public GH_Ex_Vs_ColorCell()
+          : base("Color Cell", "XL Cell Clr",
+              "Color a cell",
+              Constants.ShortName, Constants.SubGraphics)
         {
-        }
-
-        /// <summary>
-        /// Set Exposure level for the component.
-        /// </summary>
-        public override GH_Exposure Exposure
-        {
-            get { return GH_Exposure.secondary; }
         }
 
         /// <summary>
@@ -32,8 +25,8 @@ namespace Bumblebee.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
-            pManager.AddTextParameter("Cell Address", "A", "The cell address to start writing to in standard address format. (ex. A1)", GH_ParamAccess.item, "A1");
-            pManager.AddGenericParameter("DataSet", "Ds", "The dataset to write to excel", GH_ParamAccess.list);
+            pManager.AddTextParameter("Cell Addresses", "A", "Cell addresses to modify. (ex. A1)", GH_ParamAccess.list);
+            pManager.AddColourParameter("Cell Colors", "C", "Cell colors", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -68,32 +61,25 @@ namespace Bumblebee.Components
                 worksheet = app.GetActiveWorksheet();
             }
 
-            string address = "A1";
-            DA.GetData(1, ref address);
+            List<string> addresses = new List<string>();
+            DA.GetDataList(1, addresses);
 
-            List<ExData> genData = new List<ExData>();
-            if (!DA.GetDataList(2, genData)) return;
+            List<Sd.Color> colors = new List<Sd.Color>();
+            DA.GetDataList(2, colors);
 
-            List<ExRow> rows = new List<ExRow>();
-            List<ExColumn> cols = new List<ExColumn>();
-
-            foreach(ExData data in genData)
+            int countA = addresses.Count;
+            int countC = colors.Count;
+            for(int i = countC; i < countA; i++)
             {
-                if(data.DataType == ExData.DataTypes.Column)
-                {
-                    cols.Add((ExColumn)data);
-                }
-                else
-                {
-                    rows.Add((ExRow)data);
-                }
+                colors.Add(colors[countC - 1]);
             }
 
-            if ((cols.Count > 0) & (rows.Count > 0)) return;
-
-            if (cols.Count > 0) worksheet.WriteData(cols, address);
-            if (rows.Count > 0) worksheet.WriteData(rows, address);
-
+            worksheet.Freeze();
+            for(int i =0;i<addresses.Count;i++)
+            {
+            worksheet.ColorCell(addresses[i], colors[i]);
+            }
+            worksheet.UnFreeze();
         }
 
         /// <summary>
@@ -105,7 +91,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Sheet_Dataset_01;
+                return null;
             }
         }
 
@@ -114,7 +100,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b372e027-76eb-4ec8-a49c-76fcb2f7985b"); }
+            get { return new Guid("8f76e2b5-87d7-49fa-8631-9f5d6bc31d29"); }
         }
     }
 }

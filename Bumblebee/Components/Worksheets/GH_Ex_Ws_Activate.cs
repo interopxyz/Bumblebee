@@ -13,7 +13,7 @@ namespace Bumblebee.Components
         public GH_Ex_Ws_Activate()
           : base("Set Worksheet", "Set Worksheet",
               "Sets the worksheet to active",
-              Constants.ShortName, "Worksheet")
+              Constants.ShortName, Constants.SubWorkSheets)
         {
         }
 

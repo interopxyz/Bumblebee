@@ -14,7 +14,7 @@ namespace Bumblebee.Components
         public GH_Ex_Wb_Save()
           : base("Save Workbook", "Save Workbook",
               "Save a workbook to a .xlxs file",
-              Constants.ShortName, "Workbook")
+              Constants.ShortName, Constants.SubWorkBooks)
         {
         }
 

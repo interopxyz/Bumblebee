@@ -13,7 +13,7 @@ namespace Bumblebee.Components.Application
         public GH_Ex_Address()
           : base("Cell Address", "XL Address",
               "Description",
-              Constants.ShortName, "App")
+              Constants.ShortName, Constants.SubApp)
         {
         }
 

@@ -58,14 +58,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BumblebeeInfo.cs" />
-    <Compile Include="Classes\ExApp.cs" />
+    <Compile Include="Classes\ExCell.cs" />
+    <Compile Include="Classes\ExColumn.cs" />
     <Compile Include="Classes\ExData.cs" />
+    <Compile Include="Classes\ExRange.cs" />
+    <Compile Include="Classes\ExApp.cs" />
+    <Compile Include="Classes\ExRow.cs" />
     <Compile Include="Classes\ExWorkbook.cs" />
     <Compile Include="Classes\ExWorksheet.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dt_SetColumn.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dt_WriteFast.cs" />
+    <Compile Include="Components\Graphics\GH_Ex_Vs_ColorCell.cs" />
     <Compile Include="Components\Application\GH_Ex_Address.cs" />
     <Compile Include="Components\Application\GH_Ex_App.cs" />
     <Compile Include="Components\Application\GH_Ex_Location.cs" />
-    <Compile Include="Components\Data\GH_Ex_Dt_CompileData.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dt_SetRow.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_WriteData.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_Activate.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_GetAll.cs" />
@@ -145,6 +152,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BB-DataSet-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Border-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Fill-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Columns-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Rows-01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

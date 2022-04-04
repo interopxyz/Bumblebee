@@ -13,7 +13,7 @@ namespace Bumblebee.Components
         public GH_Ex_Wb_Activate()
           : base("Set Workbook", "Set Workbook",
               "Sets the workbook to active",
-              Constants.ShortName, "Workbook")
+              Constants.ShortName, Constants.SubWorkBooks)
         {
         }
 

@@ -32,10 +32,36 @@ namespace Bumblebee
             return address;
         }
 
+        public static Tuple<bool, bool> GetCellAbsolute(string address)
+        {
+            bool column = false;
+            bool row = false;
+
+            if(address.Count(x => x == '&') > 1)
+            {
+                column = true;
+                row = true;
+            }
+            else if (address.Contains("$"))
+            {
+                char[] chars = address.ToCharArray();
+
+                if(chars[0]== '$')
+                {
+                    column = true;
+                }
+                else
+                {
+                    row = true;
+                }
+            }
+
+            return new Tuple<bool, bool>(column, row);
+        }
+
         public static Tuple<int,int> GetCellLocation(string address)
         {
-
-            address.Replace("$", "");
+            address  = address.Replace("$", "");
 
             char[] arrC = address.ToCharArray();
             string Lint = "";
@@ -65,7 +91,7 @@ namespace Bumblebee
                 retVal = retVal + colNum * (int)(Math.Pow(26, col.Length - (i + 1)));
             }
 
-            return new Tuple<int, int>(retVal-1, Convert.ToInt32(Lint));
+            return new Tuple<int, int>(retVal, Convert.ToInt32(Lint));
         }
 
     }

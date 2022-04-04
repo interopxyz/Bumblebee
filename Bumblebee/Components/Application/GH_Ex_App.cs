@@ -13,7 +13,7 @@ namespace Bumblebee.Components
         public GH_Ex_App()
           : base("Excel Application", "XL App",
               "Description",
-              Constants.ShortName, "App")
+              Constants.ShortName, Constants.SubApp)
         {
         }
 

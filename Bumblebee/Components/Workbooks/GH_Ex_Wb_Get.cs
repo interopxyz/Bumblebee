@@ -13,7 +13,7 @@ namespace Bumblebee.Components
         public GH_Ex_Wb_Get()
           : base("Get Workbook", "Get Workbook",
               "Get a workbook by name or active workbook",
-              Constants.ShortName, "Workbook")
+              Constants.ShortName, Constants.SubWorkBooks)
         {
         }
 

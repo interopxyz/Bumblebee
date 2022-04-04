@@ -13,7 +13,7 @@ namespace Bumblebee.Components.Application
         public GH_Ex_Location()
           : base("Cell Location", "XL Location",
               "Description",
-              Constants.ShortName, "App")
+              Constants.ShortName, Constants.SubApp)
         {
         }
 
@@ -53,8 +53,8 @@ namespace Bumblebee.Components.Application
 
             Tuple<int, int> location = Helper.GetCellLocation(address);
 
-           DA.SetData(0, location.Item1);
-           DA.SetData(1, location.Item2);
+           DA.SetData(0, location.Item1-1);
+           DA.SetData(1, location.Item2-1);
         }
 
         /// <summary>

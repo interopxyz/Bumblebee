@@ -52,6 +52,14 @@ namespace Bumblebee
 
         #region methods
 
+        public void Freeze()
+        {
+            this.ComObj.ScreenUpdating = false;
+        }
+        public void UnFreeze()
+        {
+            this.ComObj.ScreenUpdating = true;
+        }
 
         #region workbooks
 

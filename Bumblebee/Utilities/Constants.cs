@@ -30,6 +30,31 @@ namespace Bumblebee
             get { return typeof(Constants).Assembly.GetName().Version.Major.ToString(); }
         }
 
+        public static string SubApp
+        {
+            get { return "App"; }
+        }
+
+        public static string SubData
+        {
+            get { return "Data"; }
+        }
+
+        public static string SubGraphics
+        {
+            get { return "Graphics"; }
+        }
+
+        public static string SubWorkBooks
+        {
+            get { return "Workbooks"; }
+        }
+
+        public static string SubWorkSheets
+        {
+            get { return "WorkSheets"; }
+        }
+
         #endregion
 
     }

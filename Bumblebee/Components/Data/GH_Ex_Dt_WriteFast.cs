@@ -1,19 +1,21 @@
-﻿using Grasshopper.Kernel;
+﻿using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace Bumblebee.Components
+namespace Bumblebee.Components.Data
 {
-    public class GH_Ex_Dt_WriteData : GH_Component
+    public class GH_Ex_Dt_WriteFast : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_WriteData class.
+        /// Initializes a new instance of the GH_Ex_FastWrite class.
         /// </summary>
-        public GH_Ex_Dt_WriteData()
-          : base("Write Data", "XL Write",
-              "Write data to excel",
+        public GH_Ex_Dt_WriteFast()
+          : base("Fast Write Data", "XL Fast",
+              "Fast Write data to excel",
               Constants.ShortName, Constants.SubData)
         {
         }
@@ -31,9 +33,13 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Activate", "A", "", GH_ParamAccess.item, false); 
+            pManager.AddTextParameter("WorkBook", "W", "The name of an active Workbook", GH_ParamAccess.item);
+            pManager[1].Optional = true;
+            pManager.AddTextParameter("WorkSheet", "S", "The name of an active Workbook", GH_ParamAccess.item);
+            pManager[2].Optional = true;
             pManager.AddTextParameter("Cell Address", "A", "The cell address to start writing to in standard address format. (ex. A1)", GH_ParamAccess.item, "A1");
-            pManager.AddGenericParameter("DataSet", "Ds", "The dataset to write to excel", GH_ParamAccess.list);
+            pManager.AddTextParameter("Values", "V", "A datatree of values", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -53,47 +59,47 @@ namespace Bumblebee.Components
             ExWorkbook workbook = null;
             ExWorksheet worksheet = null;
 
-            IGH_Goo goo = null;
-            if (!DA.GetData(0, ref goo)) return;
+            bool active = false;
+            if (!DA.GetData(0, ref active)) return;
 
-            if (goo.CastTo<ExWorksheet>(out worksheet))
+            if (active)
             {
-            }
-            else if (goo.CastTo<ExWorkbook>(out workbook))
-            {
-                worksheet = workbook.GetActiveWorksheet();
-            }
-            else if (goo.CastTo<ExApp>(out app))
-            {
-                worksheet = app.GetActiveWorksheet();
-            }
-
-            string address = "A1";
-            DA.GetData(1, ref address);
-
-            List<ExData> genData = new List<ExData>();
-            if (!DA.GetDataList(2, genData)) return;
-
-            List<ExRow> rows = new List<ExRow>();
-            List<ExColumn> cols = new List<ExColumn>();
-
-            foreach(ExData data in genData)
-            {
-                if(data.DataType == ExData.DataTypes.Column)
+                app = new ExApp();
+                string wbName = string.Empty;
+                if(DA.GetData(1,ref wbName))
                 {
-                    cols.Add((ExColumn)data);
+                    workbook = app.GetWorkbook(wbName);
                 }
                 else
                 {
-                    rows.Add((ExRow)data);
+                    workbook = app.GetActiveWorkbook();
                 }
+
+                string wsName = string.Empty;
+                if (DA.GetData(2, ref wsName))
+                {
+                    worksheet = workbook.GetWorksheet(wsName);
+                }
+                else
+                {
+                    worksheet = workbook.GetActiveWorksheet();
+                }
+
+                string address = "A1";
+                DA.GetData(3, ref address);
+
+                GH_Structure<GH_String> ghData = new GH_Structure<GH_String> ();
+
+                List<List<GH_String>> dataSet = new List<List<GH_String>>();
+                if(!DA.GetDataTree(4, out ghData))return;
+                
+                foreach(List<GH_String> data in ghData.Branches)
+                {
+                    dataSet.Add(data);
+                }
+                    worksheet.WriteData(dataSet, address);
+
             }
-
-            if ((cols.Count > 0) & (rows.Count > 0)) return;
-
-            if (cols.Count > 0) worksheet.WriteData(cols, address);
-            if (rows.Count > 0) worksheet.WriteData(rows, address);
-
         }
 
         /// <summary>
@@ -105,7 +111,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Sheet_Dataset_01;
+                return null;
             }
         }
 
@@ -114,7 +120,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b372e027-76eb-4ec8-a49c-76fcb2f7985b"); }
+            get { return new Guid("9e022976-510f-429f-a9d8-f659415168ef"); }
         }
     }
 }

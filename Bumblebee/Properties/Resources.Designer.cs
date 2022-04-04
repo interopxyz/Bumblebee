@@ -93,9 +93,29 @@ namespace Bumblebee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap BB_DataSet_01 {
+        internal static System.Drawing.Bitmap BB_Columns_01 {
             get {
-                object obj = ResourceManager.GetObject("BB_DataSet_01", resourceCulture);
+                object obj = ResourceManager.GetObject("BB_Columns_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Graphics_Border_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Graphics_Border_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Graphics_Fill_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Graphics_Fill_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +126,16 @@ namespace Bumblebee.Properties {
         internal static System.Drawing.Bitmap BB_Location_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Location_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Rows_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Rows_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

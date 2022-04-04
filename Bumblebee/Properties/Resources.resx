@@ -127,11 +127,20 @@
   <data name="BB_Book_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Book-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="BB_DataSet_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BB-DataSet-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BB_Columns_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Columns-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Graphics_Border_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Graphics-Border-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Graphics_Fill_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Graphics-Fill-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Location_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Location-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Rows_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Rows-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Sheet_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Sheet-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

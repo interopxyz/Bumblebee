@@ -14,7 +14,7 @@ namespace Bumblebee.Components
         public GH_Ex_Wb_Load()
           : base("Load Workbook", "Load Workbook",
               "Load a workbook from a filepath.",
-              Constants.ShortName, "Workbook")
+              Constants.ShortName, Constants.SubWorkBooks)
         {
         }
 

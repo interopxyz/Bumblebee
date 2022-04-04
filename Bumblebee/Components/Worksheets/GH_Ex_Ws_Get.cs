@@ -14,7 +14,7 @@ namespace Bumblebee.Components
         public GH_Ex_Ws_Get()
           : base("Get Worksheet", "Get Worksheet",
               "Get a worksheet by name or the active worksheet from a workbook or application",
-              Constants.ShortName, "Worksheet")
+              Constants.ShortName, Constants.SubWorkSheets)
         {
         }
 
