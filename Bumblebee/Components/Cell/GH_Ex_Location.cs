@@ -13,7 +13,7 @@ namespace Bumblebee.Components.Application
         public GH_Ex_Location()
           : base("Cell Location", "XL Location",
               "Description",
-              Constants.ShortName, Constants.SubApp)
+              Constants.ShortName, Constants.SubCell)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Bumblebee.Components.Application
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.primary; }
         }
 
         /// <summary>

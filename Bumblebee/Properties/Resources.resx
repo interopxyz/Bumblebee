@@ -127,17 +127,44 @@
   <data name="BB_Book_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Book-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BB_Cell_Size_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Cell_Size-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BB_Columns_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Columns-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BB_Extents_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Extents-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Graphics_Border2_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Graphics-Border2-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BB_Graphics_Border_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Graphics-Border-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Graphics_Fill2_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Graphics-Fill2-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Graphics_Fill_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Graphics-Fill-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Location_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Location-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Logo_16a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Logo-16a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Range_Clear_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Range_Clear-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Range_Merge_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Range_Merge-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Range_Pixel_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Range_Pixel-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Range_UnMerge_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Range_UnMerge-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Rows_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Rows-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -147,6 +174,9 @@
   </data>
   <data name="BB_Sheet_Dataset_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Sheet_Dataset-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_TabLogo_C_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-TabLogo-C-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Bumblebee_Logo_16c" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Bumblebee-Logo-16c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -93,9 +93,29 @@ namespace Bumblebee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BB_Cell_Size_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Cell_Size_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BB_Columns_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Columns_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Extents_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Extents_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,6 +133,16 @@ namespace Bumblebee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BB_Graphics_Border2_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Graphics_Border2_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BB_Graphics_Fill_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Graphics_Fill_01", resourceCulture);
@@ -123,9 +153,69 @@ namespace Bumblebee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BB_Graphics_Fill2_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Graphics_Fill2_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BB_Location_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Location_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Logo_16a {
+            get {
+                object obj = ResourceManager.GetObject("BB_Logo_16a", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Range_Clear_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Range_Clear_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Range_Merge_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Range_Merge_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Range_Pixel_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Range_Pixel_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Range_UnMerge_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_Range_UnMerge_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -156,6 +246,16 @@ namespace Bumblebee.Properties {
         internal static System.Drawing.Bitmap BB_Sheet_Dataset_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Sheet_Dataset_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_TabLogo_C_01 {
+            get {
+                object obj = ResourceManager.GetObject("BB_TabLogo_C_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -7,16 +7,24 @@ using Sd = System.Drawing;
 
 namespace Bumblebee.Components.Appearance
 {
-    public class GH_Ex_Vs_ColorCell : GH_Component
+    public class GH_Ex_CellColor : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Vs_ColorCell class.
         /// </summary>
-        public GH_Ex_Vs_ColorCell()
-          : base("Color Cell", "XL Cell Clr",
+        public GH_Ex_CellColor()
+          : base("Cell Color", "Cell Clr",
               "Color a cell",
               Constants.ShortName, Constants.SubGraphics)
         {
+        }
+
+        /// <summary>
+        /// Set Exposure level for the component.
+        /// </summary>
+        public override GH_Exposure Exposure
+        {
+            get { return GH_Exposure.primary; }
         }
 
         /// <summary>
@@ -34,6 +42,7 @@ namespace Bumblebee.Components.Appearance
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddGenericParameter("Worksheet", "Ws", "The updated worksheet", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,24 +51,9 @@ namespace Bumblebee.Components.Appearance
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            ExApp app = null;
-            ExWorkbook workbook = null;
-            ExWorksheet worksheet = null;
-
             IGH_Goo goo = null;
             if (!DA.GetData(0, ref goo)) return;
-
-            if (goo.CastTo<ExWorksheet>(out worksheet))
-            {
-            }
-            else if (goo.CastTo<ExWorkbook>(out workbook))
-            {
-                worksheet = workbook.GetActiveWorksheet();
-            }
-            else if (goo.CastTo<ExApp>(out app))
-            {
-                worksheet = app.GetActiveWorksheet();
-            }
+            ExWorksheet worksheet = goo.ToWorksheet();
 
             List<string> addresses = new List<string>();
             DA.GetDataList(1, addresses);
@@ -77,9 +71,11 @@ namespace Bumblebee.Components.Appearance
             worksheet.Freeze();
             for(int i =0;i<addresses.Count;i++)
             {
-            worksheet.ColorCell(addresses[i], colors[i]);
+            worksheet.RangeColor(addresses[i], addresses[i], colors[i]);
             }
             worksheet.UnFreeze();
+
+            DA.SetData(0, worksheet);
         }
 
         /// <summary>
@@ -91,7 +87,7 @@ namespace Bumblebee.Components.Appearance
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Graphics_Fill2_01;
             }
         }
 

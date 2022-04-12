@@ -13,7 +13,7 @@ namespace Bumblebee.Components.Application
         public GH_Ex_Address()
           : base("Cell Address", "XL Address",
               "Description",
-              Constants.ShortName, Constants.SubApp)
+              Constants.ShortName, Constants.SubCell)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Bumblebee.Components.Application
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.primary; }
         }
 
         /// <summary>
@@ -65,8 +65,6 @@ namespace Bumblebee.Components.Application
 
             bool absR = false;
             DA.GetData(3, ref absR);
-
-            
 
             DA.SetData(0, Helper.GetCellAddress(col,row,absC,absR));
         }

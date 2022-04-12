@@ -30,6 +30,16 @@ namespace Bumblebee
             get { return typeof(Constants).Assembly.GetName().Version.Major.ToString(); }
         }
 
+        public static string SubRange
+        {
+            get { return "Range"; }
+        }
+
+        public static string SubCell
+        {
+            get { return "Cell"; }
+        }
+
         public static string SubApp
         {
             get { return "App"; }

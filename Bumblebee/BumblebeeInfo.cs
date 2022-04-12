@@ -62,7 +62,7 @@ namespace Bumblebee
 
         public override GH_LoadingInstruction PriorityLoad()
         {
-            Instances.ComponentServer.AddCategoryIcon(Constants.ShortName, Bumblebee.Properties.Resources.Bumblebee_Logo_16c);
+            Instances.ComponentServer.AddCategoryIcon(Constants.ShortName, Bumblebee.Properties.Resources.BB_TabLogo_C_01);
             Instances.ComponentServer.AddCategorySymbolName(Constants.ShortName, 'B');
             return GH_LoadingInstruction.Proceed;
         }

@@ -58,6 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BumblebeeInfo.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Addresses.cs" />
+    <Compile Include="Components\Graphics\GH_Ex_CellBorder.cs" />
+    <Compile Include="Components\Graphics\GH_Ex_CellFont.cs" />
+    <Compile Include="Components\Range\GH_Ex_Extents.cs" />
+    <Compile Include="Components\Range\GH_Ex_UnMerge.cs" />
+    <Compile Include="Extensions\ExExtensions.cs" />
+    <Compile Include="Extensions\GhExtensions.cs" />
     <Compile Include="Classes\ExCell.cs" />
     <Compile Include="Classes\ExColumn.cs" />
     <Compile Include="Classes\ExData.cs" />
@@ -66,14 +73,19 @@
     <Compile Include="Classes\ExRow.cs" />
     <Compile Include="Classes\ExWorkbook.cs" />
     <Compile Include="Classes\ExWorksheet.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Resize.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_SetColumn.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_WriteFast.cs" />
-    <Compile Include="Components\Graphics\GH_Ex_Vs_ColorCell.cs" />
-    <Compile Include="Components\Application\GH_Ex_Address.cs" />
+    <Compile Include="Components\Graphics\GH_Ex_CellColor.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Address.cs" />
     <Compile Include="Components\Application\GH_Ex_App.cs" />
-    <Compile Include="Components\Application\GH_Ex_Location.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Location.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_SetRow.cs" />
     <Compile Include="Components\Data\GH_Ex_Dt_WriteData.cs" />
+    <Compile Include="Components\Range\GH_Ex_Clear.cs" />
+    <Compile Include="Components\Range\GH_Ex_Merge.cs" />
+    <Compile Include="Components\Range\GH_Ex_Pixel.cs" />
+    <Compile Include="Components\Range\GH_Ex_Range_Base.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_Activate.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_GetAll.cs" />
     <Compile Include="Components\Workbooks\GH_Ex_Wb_Save.cs" />
@@ -92,7 +104,7 @@
     <Compile Include="Utilities\Helper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <None Include="Resources\BB-Range_UnMerge-01.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -164,6 +176,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BB-Rows-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Pixel-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Merge-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Clear-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_Size-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Extents-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Logo-16a.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Border2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Fill2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-TabLogo-C-01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

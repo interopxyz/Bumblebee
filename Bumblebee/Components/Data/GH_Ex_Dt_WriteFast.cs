@@ -47,6 +47,11 @@ namespace Bumblebee.Components.Data
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.item);
+            pManager.AddTextParameter("Start Address", "A", "The starting cell address of the range", GH_ParamAccess.item);
+            pManager.AddTextParameter("Extent Address", "B", "The cell address at the extent of the range", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -92,13 +97,19 @@ namespace Bumblebee.Components.Data
 
                 List<List<GH_String>> dataSet = new List<List<GH_String>>();
                 if(!DA.GetDataTree(4, out ghData))return;
-                
-                foreach(List<GH_String> data in ghData.Branches)
+
+                foreach (List<GH_String> data in ghData.Branches)
                 {
                     dataSet.Add(data);
                 }
-                    worksheet.WriteData(dataSet, address);
 
+                string extent = worksheet.WriteData(dataSet, address);
+
+                DA.SetData(0, app);
+                DA.SetData(1, workbook);
+                DA.SetData(2, worksheet);
+                DA.SetData(3, address);
+                DA.SetData(4, extent);
             }
         }
 

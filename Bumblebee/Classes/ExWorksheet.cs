@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Rg = Rhino.Geometry;
 using Sd = System.Drawing;
 
 using XL = Microsoft.Office.Interop.Excel;
@@ -80,7 +81,7 @@ namespace Bumblebee
 
         #region data
 
-        public void WriteData(List<ExRow> data, string source)
+        public string WriteData(List<ExRow> data, string source)
         {
 
             Tuple<int, int> location = Helper.GetCellLocation(source);
@@ -88,7 +89,7 @@ namespace Bumblebee
             int x = data[0].Values.Count;
             int y = data.Count;
 
-            string[,] values = new string[y+1, x+0];
+            string[,] values = new string[y + 1, x + 0];
 
             for (int i = 0; i < data[0].Columns.Count; i++)
             {
@@ -103,7 +104,7 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x-2, location.Item2 + y-1);
+            string target = Helper.GetCellAddress(location.Item1 + x - 2, location.Item2 + y - 1);
 
             this.ComObj.Range[source, target].Value = values;
 
@@ -112,9 +113,10 @@ namespace Bumblebee
                 this.ComObj.Columns[location.Item2 + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
             }
 
+            return target;
         }
 
-        public void WriteData(List<ExColumn> data, string source)
+        public string WriteData(List<ExColumn> data, string source)
         {
 
             Tuple<int, int> location = Helper.GetCellLocation(source);
@@ -133,7 +135,7 @@ namespace Bumblebee
             {
                 for (int j = 0; j < y; j++)
                 {
-                    values[i+1, j] = data[j].Values[i];
+                    values[i + 1, j] = data[j].Values[i];
                 }
             }
 
@@ -146,9 +148,10 @@ namespace Bumblebee
                 this.ComObj.Columns[location.Item2 + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
             }
 
+            return target;
         }
 
-        public void WriteData(List<List<GH_String>> data, string source)
+        public string WriteData(List<List<GH_String>> data, string source)
         {
 
             Tuple<int, int> location = Helper.GetCellLocation(source);
@@ -170,26 +173,145 @@ namespace Bumblebee
 
             this.ComObj.Range[source, target].Value = values;
 
+            return target;
+        }
+
+        #endregion
+
+        #region range
+
+        public void ResizeRangeCells(string source, string target, int width, int height)
+        {
+
+            this.ComObj.Range[source, target].Columns.ColumnWidth = width;
+            this.ComObj.Range[source, target].Rows.RowHeight = height;
+        }
+
+        public void ClearContent(string source, string target)
+        {
+            this.ComObj.Range[source, target].ClearContents();
+        }
+
+        public void ClearFormat(string source, string target)
+        {
+            this.ComObj.Range[source, target].ClearFormats();
+        }
+
+        public void MergeCells(string source, string target)
+        {
+            this.ComObj.Range[source, target].MergeCells = true;
+        }
+
+        public void UnMergeCells(string source, string target)
+        {
+            this.ComObj.Range[source, target].UnMerge();
+        }
+
+        public Rg.Point3d GetRangeMinPixel(string source, string target)
+        {
+            double X = this.ComObj.Range[source, target].Left;
+            double Y = this.ComObj.Range[source, target].Top;
+
+            return new Rg.Point3d(X, Y, 0);
+        }
+
+        public Rg.Point3d GetRangeMaxPixel(string source, string target)
+        {
+            double X = this.ComObj.Range[source, target].Left;
+            double Y = this.ComObj.Range[source, target].Top;
+
+            double W = this.ComObj.Range[source, target].Width;
+            double H = this.ComObj.Range[source, target].Height;
+
+            return new Rg.Point3d(X + W, Y + H, 0);
+        }
+
+        public string GetFirstUsedCell()
+        {
+            int X = this.ComObj.UsedRange.Column;
+            int Y = this.ComObj.UsedRange.Row;
+
+            return Helper.GetCellAddress(X - 1, Y - 1);
+        }
+
+        public string GetLastUsedCell()
+        {
+            int W = this.ComObj.UsedRange.Columns.Count;
+            int X = this.ComObj.UsedRange.Columns[W].Column;
+            int H = this.ComObj.UsedRange.Rows.Count;
+            int Y = this.ComObj.UsedRange.Rows[H].Row;
+
+            return Helper.GetCellAddress(X - 1, Y - 1);
         }
 
         #endregion
 
         #region graphics
 
-        public void ColorRange(string source, string target, Sd.Color color)
+        public void RangeColor(string source, string target, Sd.Color color)
         {
             this.ComObj.Range[source, target].Interior.Color = color;
         }
 
-        public void ColorCell(int row, int column, Sd.Color color)
+        public void RangeBorder(string source, string target, Sd.Color color, ExApp.BorderWeight weight, ExApp.LineType type, ExApp.HorizontalBorder horizontal, ExApp.VerticalBorder vertical)
         {
-            this.ComObj.Cells[row, column].Interior.Color = color;
-        }
+            XL.Borders borders = this.ComObj.Range[source, target].Borders;
+            XL.Border left, right, top, bottom;
 
-        public void ColorCell(string cell, Sd.Color color)
-        {
-            Tuple<int, int> location = Helper.GetCellLocation(cell);
-            this.ComObj.Cells[location.Item2, location.Item1].Interior.Color = color;
+            switch (horizontal)
+            {
+                case ExApp.HorizontalBorder.Both:
+                    bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
+                    bottom.Weight = weight.ToExcel();
+                    bottom.Color = color;
+                    bottom.LineStyle = type.ToExcel();
+
+                    top = borders[XL.XlBordersIndex.xlEdgeTop];
+                    top.Weight = weight.ToExcel();
+                    top.Color = color;
+                    top.LineStyle = type.ToExcel();
+                    break;
+                case ExApp.HorizontalBorder.Bottom:
+                    bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
+                    bottom.Weight = weight.ToExcel();
+                    bottom.Color = color;
+                    bottom.LineStyle = type.ToExcel();
+                    break;
+                case ExApp.HorizontalBorder.Top:
+                    top = borders[XL.XlBordersIndex.xlEdgeTop];
+                    top.Weight = weight.ToExcel();
+                    top.Color = color;
+                    top.LineStyle = type.ToExcel();
+                    break;
+            }
+
+            switch (vertical)
+            {
+                case ExApp.VerticalBorder.Both:
+                    left = borders[XL.XlBordersIndex.xlEdgeLeft];
+                    left.Weight = weight.ToExcel();
+                    left.Color = color;
+                    left.LineStyle = type.ToExcel();
+
+                    right = borders[XL.XlBordersIndex.xlEdgeRight];
+                    right.Weight = weight.ToExcel();
+                    right.Color = color;
+                    right.LineStyle = type.ToExcel();
+                    break;
+                case ExApp.VerticalBorder.Left:
+                    left = borders[XL.XlBordersIndex.xlEdgeLeft];
+                    left.Weight = weight.ToExcel();
+                    left.Color = color;
+                    left.LineStyle = type.ToExcel();
+                    break;
+                case ExApp.VerticalBorder.Right:
+                    right = borders[XL.XlBordersIndex.xlEdgeRight];
+                    right.Weight = weight.ToExcel();
+                    right.Color = color;
+                    right.LineStyle = type.ToExcel();
+                    break;
+            }
+
         }
 
         #endregion

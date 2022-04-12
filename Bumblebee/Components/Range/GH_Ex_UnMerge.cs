@@ -4,17 +4,17 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace Bumblebee.Components
+namespace Bumblebee.Components.Range
 {
-    public class GH_Ex_Dt_WriteData : GH_Component
+    public class GH_Ex_UnMerge : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_WriteData class.
+        /// Initializes a new instance of the GH_Ex_UnMerge class.
         /// </summary>
-        public GH_Ex_Dt_WriteData()
-          : base("Write Data", "XL Write",
-              "Write data to excel",
-              Constants.ShortName, Constants.SubData)
+        public GH_Ex_UnMerge()
+          : base("Range UnMerge", "Rng UnMrg",
+              "UnMerge the specified cell",
+              Constants.ShortName, Constants.SubRange)
         {
         }
 
@@ -23,17 +23,18 @@ namespace Bumblebee.Components
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.secondary; }
+            get { return GH_Exposure.quarternary; }
         }
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
-            pManager.AddTextParameter("Cell Address", "A", "The cell address to start writing to in standard address format. (ex. A1)", GH_ParamAccess.item, "A1");
-            pManager.AddGenericParameter("DataSet", "Ds", "The dataset to write to excel", GH_ParamAccess.list);
+            pManager.AddTextParameter("Address", "A", "The first cell address in the merged range", GH_ParamAccess.item, "A1");
+            pManager.AddBooleanParameter("Activate", "_A", "If true, the component will be activated", GH_ParamAccess.item, false);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -41,9 +42,9 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Worksheet", "Ws", "The updated worksheet", GH_ParamAccess.item);
             pManager.AddTextParameter("Start Address", "A", "The starting cell address of the range", GH_ParamAccess.item);
-            pManager.AddTextParameter("Extent Address", "B", "The cell address at the extent of the range", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("Status", "S", "Returns the status of the activate input", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -57,34 +58,16 @@ namespace Bumblebee.Components
             ExWorksheet worksheet = goo.ToWorksheet();
 
             string address = "A1";
-            DA.GetData(1, ref address);
+            if (!DA.GetData(1, ref address)) return;
 
-            List<ExData> genData = new List<ExData>();
-            if (!DA.GetDataList(2, genData)) return;
+            bool activate = false;
+            DA.GetData(2, ref activate);
 
-            List<ExRow> rows = new List<ExRow>();
-            List<ExColumn> cols = new List<ExColumn>();
-
-            foreach(ExData data in genData)
-            {
-                if(data.DataType == ExData.DataTypes.Column)
-                {
-                    cols.Add((ExColumn)data);
-                }
-                else
-                {
-                    rows.Add((ExRow)data);
-                }
-            }
-
-            if ((cols.Count > 0) & (rows.Count > 0)) return;
-            string extent = string.Empty;
-            if (cols.Count > 0) extent = worksheet.WriteData(cols, address);
-            if (rows.Count > 0) extent = worksheet.WriteData(rows, address);
+            if (activate) worksheet.UnMergeCells(address, address);
 
             DA.SetData(0, worksheet);
             DA.SetData(1, address);
-            DA.SetData(2, extent);
+            DA.SetData(2, activate);
         }
 
         /// <summary>
@@ -96,7 +79,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Sheet_Dataset_01;
+                return Properties.Resources.BB_Range_UnMerge_01;
             }
         }
 
@@ -105,7 +88,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("b372e027-76eb-4ec8-a49c-76fcb2f7985b"); }
+            get { return new Guid("715df6f9-186b-4c62-8af9-d91eda3fd5b9"); }
         }
     }
 }

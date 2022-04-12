@@ -17,6 +17,7 @@ namespace Bumblebee
         protected bool isColumnAbsolute = false;
         protected bool isRowAbsolute = false;
 
+
         #endregion
 
         #region constructors

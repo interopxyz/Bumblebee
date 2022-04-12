@@ -14,6 +14,10 @@ namespace Bumblebee
         #region members
 
         public XL.Application ComObj = null;
+        public enum HorizontalBorder{None,Bottom,Top,Both };
+        public enum VerticalBorder { None, Left, Right, Both };
+        public enum LineType { None, Continuous, Dash, DashDot, DashDotDot, Dot, Double, SlantDashDot };
+        public enum BorderWeight { Hairline, Thin, Medium, Thick };
 
         #endregion
 
