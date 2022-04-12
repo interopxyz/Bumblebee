@@ -248,6 +248,17 @@ namespace Bumblebee
 
         #region graphics
 
+        public void RangeFont(string source, string target, string name, double size, Sd.Color color, ExApp.Justification justification)
+        {
+            XL.Font font = this.ComObj.Range[source, target].Font;
+            font.Name = name;
+            font.Size = size;
+            font.Color = color;
+
+            this.ComObj.Range[source, target].Interior.Color = color;
+        }
+
+
         public void RangeColor(string source, string target, Sd.Color color)
         {
             this.ComObj.Range[source, target].Interior.Color = color;

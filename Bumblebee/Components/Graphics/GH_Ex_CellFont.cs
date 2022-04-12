@@ -1,7 +1,10 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Bumblebee.Components.Graphics
 {
@@ -11,9 +14,9 @@ namespace Bumblebee.Components.Graphics
         /// Initializes a new instance of the GH_Ex_CellFont class.
         /// </summary>
         public GH_Ex_CellFont()
-          : base("GH_Ex_CellFont", "Nickname",
-              "Description",
-              "Category", "Subcategory")
+          : base("Cell Font", "Cell Font",
+              "Change a cell font",
+              Constants.ShortName, Constants.SubGraphics)
         {
         }
 
@@ -30,6 +33,22 @@ namespace Bumblebee.Components.Graphics
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
+            pManager.AddTextParameter("Cell Addresses", "A", "Cell addresses to modify. (ex. A1)", GH_ParamAccess.list);
+            pManager.AddTextParameter("Font Names", "F", "Cell font names", GH_ParamAccess.list);
+            pManager[2].Optional = true;
+            pManager.AddColourParameter("Font Colors", "C", "Cell font colors", GH_ParamAccess.list);
+            pManager[3].Optional = true;
+            pManager.AddNumberParameter("Font Sizes", "S", "Cell font numbers", GH_ParamAccess.list);
+            pManager[4].Optional = true;
+            pManager.AddIntegerParameter("Font Justifications", "J", "Cell font justifications", GH_ParamAccess.list);
+            pManager[5].Optional = true;
+
+            Param_Integer paramA = (Param_Integer)pManager[5];
+            foreach (ExApp.Justification value in Enum.GetValues(typeof(ExApp.Justification)))
+            {
+                paramA.AddNamedValue(value.ToString(), (int)value);
+            }
         }
 
         /// <summary>
@@ -37,6 +56,7 @@ namespace Bumblebee.Components.Graphics
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddGenericParameter("Worksheet", "Ws", "The updated worksheet", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,6 +65,58 @@ namespace Bumblebee.Components.Graphics
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            IGH_Goo goo = null;
+            if (!DA.GetData(0, ref goo)) return;
+            ExWorksheet worksheet = goo.ToWorksheet();
+
+            List<string> addresses = new List<string>();
+            DA.GetDataList(1, addresses);
+
+            int countA = addresses.Count;
+
+            List<string> names = new List<string>();
+            if (!DA.GetDataList(2, names)) names.Add("Arial");
+            int countB = names.Count;
+
+            for (int i = countB; i < countA; i++)
+            {
+                names.Add(names[countB - 1]);
+            }
+
+            List<Color> colors = new List<Color>();
+            if (!DA.GetDataList(3, colors)) colors.Add(Color.Black);
+            countB = colors.Count;
+
+            for (int i = countB; i < countA; i++)
+            {
+                colors.Add(colors[countB - 1]);
+            }
+
+            List<double> sizes = new List<double>();
+            if (!DA.GetDataList(4, sizes)) sizes.Add(10.0);
+            countB = sizes.Count;
+
+            for (int i = countB; i < countA; i++)
+            {
+                sizes.Add(sizes[countB - 1]);
+            }
+
+            List<int> justifications = new List<int>();
+            if (!DA.GetDataList(5, justifications)) justifications.Add(1);
+
+            for (int i = countB; i < countA; i++)
+            {
+                justifications.Add(justifications[countB - 1]);
+            }
+
+            worksheet.Freeze();
+            for (int i = 0; i < addresses.Count; i++)
+            {
+                worksheet.RangeFont(addresses[i], addresses[i], names[i], sizes[i], colors[i], (ExApp.Justification)justifications[i]);
+            }
+            worksheet.UnFreeze();
+
+            DA.SetData(0, worksheet);
         }
 
         /// <summary>

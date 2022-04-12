@@ -18,6 +18,7 @@ namespace Bumblebee
         public enum VerticalBorder { None, Left, Right, Both };
         public enum LineType { None, Continuous, Dash, DashDot, DashDotDot, Dot, Double, SlantDashDot };
         public enum BorderWeight { Hairline, Thin, Medium, Thick };
+        public enum Justification { BottomLeft, BottomMiddle, BottomRight, CenterLeft, CenterMiddle, CenterRight, TopLeft, TopMiddle, TopRight };
 
         #endregion
 
