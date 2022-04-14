@@ -34,6 +34,11 @@ namespace Bumblebee
             }
         }
 
+        public static XL.XlHAlign ToExcelHalign(this ExApp.Justification input)
+        {
+
+        }
+
         public static XL.XlBorderWeight ToExcel(this ExApp.BorderWeight input)
         {
             switch (input)

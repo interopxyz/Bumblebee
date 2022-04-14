@@ -254,10 +254,7 @@ namespace Bumblebee
             font.Name = name;
             font.Size = size;
             font.Color = color;
-
-            this.ComObj.Range[source, target].Interior.Color = color;
         }
-
 
         public void RangeColor(string source, string target, Sd.Color color)
         {
