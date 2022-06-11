@@ -85,6 +85,7 @@ namespace Bumblebee.Components.Graphics
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            bool isSingle = true;
             IGH_Goo goo = null;
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
@@ -97,7 +98,7 @@ namespace Bumblebee.Components.Graphics
             List<Color> colors = new List<Color>();
             if(!DA.GetDataList(2, colors))colors.Add(Color.Black);
             int countB = colors.Count;
-
+            if (countB > 1) isSingle = false;
             for (int i = countB; i < countA; i++)
             {
                 colors.Add(colors[countB - 1]);
@@ -106,7 +107,7 @@ namespace Bumblebee.Components.Graphics
             List<int> weights = new List<int>();
             if (!DA.GetDataList(3, weights)) weights.Add(1);
             countB = weights.Count;
-
+            if (countB > 1) isSingle = false;
             for (int i = countB; i < countA; i++)
             {
                 weights.Add(weights[countB - 1]);
@@ -114,7 +115,8 @@ namespace Bumblebee.Components.Graphics
 
             List<int> types = new List<int>();
             if (!DA.GetDataList(4, types)) types.Add(1);
-
+            countB = types.Count;
+            if (countB > 1) isSingle = false;
             for (int i = countB; i < countA; i++)
             {
                 types.Add(types[countB - 1]);
@@ -122,7 +124,8 @@ namespace Bumblebee.Components.Graphics
 
             List<int> horizontal = new List<int>();
             if (!DA.GetDataList(5, horizontal)) horizontal.Add(3);
-
+            countB = horizontal.Count;
+            if (countB > 1) isSingle = false;
             for (int i = countB; i < countA; i++)
             {
                 horizontal.Add(horizontal[countB - 1]);
@@ -130,16 +133,24 @@ namespace Bumblebee.Components.Graphics
 
             List<int> vertical = new List<int>();
             if (!DA.GetDataList(6, vertical)) vertical.Add(3);
-
+            countB = vertical.Count;
+            if (countB > 1) isSingle = false;
             for (int i = countB; i < countA; i++)
             {
                 vertical.Add(vertical[countB - 1]);
             }
 
             worksheet.Freeze();
-            for (int i = 0; i < addresses.Count; i++)
+            if (isSingle)
             {
-                worksheet.RangeBorder(addresses[i], addresses[i], colors[i], (ExApp.BorderWeight)weights[i], (ExApp.LineType)types[i], (ExApp.HorizontalBorder)horizontal[i], (ExApp.VerticalBorder)vertical[i]);
+                worksheet.RangeBorder(addresses[0], addresses[countA-1], colors[0], (ExApp.BorderWeight)weights[0], (ExApp.LineType)types[0], (ExApp.HorizontalBorder)horizontal[0], (ExApp.VerticalBorder)vertical[0]);
+            }
+            else
+            {
+                for (int i = 0; i < addresses.Count; i++)
+                {
+                    worksheet.RangeBorder(addresses[i], addresses[i], colors[i], (ExApp.BorderWeight)weights[i], (ExApp.LineType)types[i], (ExApp.HorizontalBorder)horizontal[i], (ExApp.VerticalBorder)vertical[i]);
+                }
             }
             worksheet.UnFreeze();
 
@@ -155,7 +166,7 @@ namespace Bumblebee.Components.Graphics
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Graphics_Border2_01;
+                return Properties.Resources.BB_Graphics_Border3_01;
             }
         }
 

@@ -51,6 +51,7 @@ namespace Bumblebee.Components.Appearance
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            bool isSingle = true;
             IGH_Goo goo = null;
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
@@ -62,16 +63,24 @@ namespace Bumblebee.Components.Appearance
             DA.GetDataList(2, colors);
 
             int countA = addresses.Count;
-            int countC = colors.Count;
-            for(int i = countC; i < countA; i++)
+            int countB = colors.Count;
+            if (countB > 1) isSingle = false;
+            for (int i = countB; i < countA; i++)
             {
-                colors.Add(colors[countC - 1]);
+                colors.Add(colors[countB - 1]);
             }
 
             worksheet.Freeze();
-            for(int i =0;i<addresses.Count;i++)
+            if (isSingle)
             {
-            worksheet.RangeColor(addresses[i], addresses[i], colors[i]);
+                worksheet.RangeColor(addresses[0], addresses[countA-1], colors[0]);
+            }
+            else
+            {
+                for (int i = 0; i < addresses.Count; i++)
+                {
+                    worksheet.RangeColor(addresses[i], addresses[i], colors[i]);
+                }
             }
             worksheet.UnFreeze();
 
@@ -87,7 +96,7 @@ namespace Bumblebee.Components.Appearance
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Graphics_Fill2_01;
+                return Properties.Resources.BB_Graphics_Fill3_01;
             }
         }
 

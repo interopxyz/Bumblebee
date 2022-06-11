@@ -81,7 +81,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Range_Merge_01;
+                return Properties.Resources.BB_Range_Merge3_01;
             }
         }
 

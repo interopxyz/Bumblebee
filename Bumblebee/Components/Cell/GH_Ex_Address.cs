@@ -30,9 +30,9 @@ namespace Bumblebee.Components.Application
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Column", "C", "Column Index", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("Column", "C", "Column Index", GH_ParamAccess.item, 1);
             pManager[0].Optional = true;
-            pManager.AddIntegerParameter("Row", "R", "Row Index", GH_ParamAccess.item, 0);
+            pManager.AddIntegerParameter("Row", "R", "Row Index", GH_ParamAccess.item, 1);
             pManager[1].Optional = true;
             pManager.AddBooleanParameter("Absolute Column", "AC", "Set absolute value for column", GH_ParamAccess.item, false);
             pManager[2].Optional = true;
@@ -54,10 +54,10 @@ namespace Bumblebee.Components.Application
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            int col = 0;
+            int col = 1;
             DA.GetData(0, ref col);
 
-            int row = 0;
+            int row = 1;
             DA.GetData(1, ref row);
 
             bool absC = false;

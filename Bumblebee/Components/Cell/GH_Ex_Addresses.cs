@@ -66,10 +66,10 @@ namespace Bumblebee.Components.Cell
             Tuple<int, int> B = Helper.GetCellLocation(b);
 
             int xa = Math.Min(A.Item1, B.Item1);
-            int xb = Math.Max(A.Item1, B.Item1);
+            int xb = Math.Max(A.Item1, B.Item1)+1;
 
             int ya = Math.Min(A.Item2, B.Item2);
-            int yb = Math.Max(A.Item2, B.Item2);
+            int yb = Math.Max(A.Item2, B.Item2)+1;
 
             List<string> addresses = new List<string>();
             List<int> columns = new List<int>();
@@ -77,9 +77,9 @@ namespace Bumblebee.Components.Cell
 
             if (flip)
             {
-                for (int i = xa-1; i < xb; i++)
+                for (int i = xa; i < xb; i++)
                 {
-                    for (int j = ya-1; j < yb; j++)
+                    for (int j = ya; j < yb; j++)
                     {
                         addresses.Add(Helper.GetCellAddress(i, j));
                         columns.Add(i);
@@ -89,9 +89,9 @@ namespace Bumblebee.Components.Cell
             }
             else
             {
-                for (int j = xa-1; j < xb; j++)
+                for (int j = xa; j < xb; j++)
                 {
-                    for (int i = ya-1; i < yb; i++)
+                    for (int i = ya; i < yb; i++)
                     {
                         addresses.Add(Helper.GetCellAddress(i, j));
                         columns.Add(i);
@@ -114,7 +114,7 @@ namespace Bumblebee.Components.Cell
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BB_Addresses2_01;
             }
         }
 

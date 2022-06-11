@@ -35,6 +35,11 @@ namespace Bumblebee
             get { return "Range"; }
         }
 
+        public static string SubObject
+        {
+            get { return "Object"; }
+        }
+
         public static string SubCell
         {
             get { return "Cell"; }

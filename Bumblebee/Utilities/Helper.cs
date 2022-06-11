@@ -11,7 +11,7 @@ namespace Bumblebee
     {
         public static string GetCellAddress(int column, int row, bool absoluteColumn = false, bool absoluteRow = false)
         {
-            int col = column+1;
+            int col = column;
             string colLetter = String.Empty;
             int mod;
 
@@ -28,7 +28,7 @@ namespace Bumblebee
             if (absoluteColumn) ac = "$";
             if (absoluteRow) ar = "$";
 
-            string address = (ac+colLetter + ar+(row+1));
+            string address = (ac+colLetter + ar+row);
             return address;
         }
 

@@ -12,7 +12,7 @@ namespace Bumblebee.Components.Data
         /// </summary>
         public GH_Ex_Dt_SetRow()
           : base("Compile Row", "Row",
-              "Compile data into a row assemblies",
+              "Compile data into row assemblies",
               Constants.ShortName, Constants.SubData)
         {
         }

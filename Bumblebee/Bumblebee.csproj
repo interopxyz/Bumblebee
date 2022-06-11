@@ -61,6 +61,7 @@
     <Compile Include="Components\Cell\GH_Ex_Addresses.cs" />
     <Compile Include="Components\Graphics\GH_Ex_CellBorder.cs" />
     <Compile Include="Components\Graphics\GH_Ex_CellFont.cs" />
+    <Compile Include="Components\Objects\GH_Ex_ObjPicture.cs" />
     <Compile Include="Components\Range\GH_Ex_Extents.cs" />
     <Compile Include="Components\Range\GH_Ex_UnMerge.cs" />
     <Compile Include="Extensions\ExExtensions.cs" />
@@ -203,6 +204,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BB-TabLogo-C-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Addresses-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Addresses2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Font-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Fill3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Border3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Pixel2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_UnMerge2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Merge2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_SizeA-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_SizeD-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Clear2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Merge3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_UnMerge3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Obj_Picture1-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_Sparkline-01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

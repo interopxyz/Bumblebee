@@ -104,7 +104,7 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x - 2, location.Item2 + y - 1);
+            string target = Helper.GetCellAddress(location.Item1 + x - 1, location.Item2 + y);
 
             this.ComObj.Range[source, target].Value = values;
 
@@ -139,7 +139,7 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + y - 2, location.Item2 + x - 1);
+            string target = Helper.GetCellAddress(location.Item1 + y - 1, location.Item2 + x);
 
             this.ComObj.Range[source, target].Value = values;
 
@@ -169,7 +169,7 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x - 2, location.Item2 + y - 2);
+            string target = Helper.GetCellAddress(location.Item1 + x - 1, location.Item2 + y - 1);
 
             this.ComObj.Range[source, target].Value = values;
 
@@ -231,7 +231,7 @@ namespace Bumblebee
             int X = this.ComObj.UsedRange.Column;
             int Y = this.ComObj.UsedRange.Row;
 
-            return Helper.GetCellAddress(X - 1, Y - 1);
+            return Helper.GetCellAddress(X, Y);
         }
 
         public string GetLastUsedCell()
@@ -241,19 +241,27 @@ namespace Bumblebee
             int H = this.ComObj.UsedRange.Rows.Count;
             int Y = this.ComObj.UsedRange.Rows[H].Row;
 
-            return Helper.GetCellAddress(X - 1, Y - 1);
+            return Helper.GetCellAddress(X, Y);
         }
 
         #endregion
 
         #region graphics
 
-        public void RangeFont(string source, string target, string name, double size, Sd.Color color, ExApp.Justification justification)
+        public void RangeFont(string source, string target, string name, double size, Sd.Color color, ExApp.Justification justification, bool bold, bool italic)
         {
-            XL.Font font = this.ComObj.Range[source, target].Font;
+            XL.Range range = this.ComObj.Range[source, target];
+            XL.Font font = range.Font;
+
             font.Name = name;
             font.Size = size;
             font.Color = color;
+            font.Bold = bold;
+            font.Italic = italic;
+
+            range.HorizontalAlignment = justification.ToExcelHalign();
+            range.VerticalAlignment = justification.ToExcelValign();
+
         }
 
         public void RangeColor(string source, string target, Sd.Color color)
@@ -320,6 +328,24 @@ namespace Bumblebee
                     break;
             }
 
+        }
+
+        #endregion
+
+        #region objects
+
+        public void AddPicture(string fileName, double x, double y, double scale)
+        {
+            XL.Shape shape = this.ComObj.Shapes.AddPicture(fileName, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, (float)x, (float)y, 100, 100);
+            shape.ScaleWidth((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
+            shape.ScaleHeight((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
+
+        }
+
+        public void AddSparkline(string source, string target, string placement)
+        {
+            XL.Range range = this.ComObj.Range[source, target];
+            range.SparklineGroups.Add(XL.XlSparkType.xlSparkColumn,placement+":"+placement);
         }
 
         #endregion

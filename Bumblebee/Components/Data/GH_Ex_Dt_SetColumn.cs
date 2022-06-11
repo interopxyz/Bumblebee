@@ -11,8 +11,8 @@ namespace Bumblebee.Components.Data
         /// Initializes a new instance of the GH_Ex_Dt_Column class.
         /// </summary>
         public GH_Ex_Dt_SetColumn()
-          : base("Compile Row", "Row",
-              "Compile data into a row assemblies",
+          : base("Compile Column", "Col",
+              "Compile data into column assemblies",
               Constants.ShortName, Constants.SubData)
         {
         }

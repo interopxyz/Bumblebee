@@ -36,7 +36,36 @@ namespace Bumblebee
 
         public static XL.XlHAlign ToExcelHalign(this ExApp.Justification input)
         {
+            switch (input)
+            {
+                case ExApp.Justification.BottomMiddle:
+                case ExApp.Justification.CenterMiddle:
+                case ExApp.Justification.TopMiddle:
+                    return XL.XlHAlign.xlHAlignCenter;
+                case ExApp.Justification.BottomRight:
+                case ExApp.Justification.CenterRight:
+                case ExApp.Justification.TopRight:
+                    return XL.XlHAlign.xlHAlignRight;
+                default:
+                    return XL.XlHAlign.xlHAlignLeft;
+            }
+        }
 
+        public static XL.XlVAlign ToExcelValign(this ExApp.Justification input)
+        {
+            switch (input)
+            {
+                case ExApp.Justification.CenterLeft:
+                case ExApp.Justification.CenterMiddle:
+                case ExApp.Justification.CenterRight:
+                    return XL.XlVAlign.xlVAlignCenter;
+                case ExApp.Justification.TopLeft:
+                case ExApp.Justification.TopMiddle:
+                case ExApp.Justification.TopRight:
+                    return XL.XlVAlign.xlVAlignTop;
+                default:
+                    return XL.XlVAlign.xlVAlignBottom;
+            }
         }
 
         public static XL.XlBorderWeight ToExcel(this ExApp.BorderWeight input)

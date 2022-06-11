@@ -83,7 +83,10 @@ namespace Bumblebee
                 }
             }
 
-            return null;
+            XL.Worksheet worksheet1 = this.ComObj.Worksheets.Add();
+            worksheet1.Name = name;
+
+            return new ExWorksheet(worksheet1); ;
         }
 
         public List<ExWorksheet> GetWorksheets()

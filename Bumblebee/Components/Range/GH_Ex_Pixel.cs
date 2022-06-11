@@ -79,7 +79,7 @@ namespace Bumblebee.Components.Range
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Range_Pixel_01;
+                return Properties.Resources.BB_Range_Pixel2_01;
             }
         }
 
