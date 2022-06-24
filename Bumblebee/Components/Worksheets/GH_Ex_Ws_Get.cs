@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Ws_Get : GH_Component
+    public class GH_Ex_Ws_Get : GH_Ex_Wb_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Ws_Get class.
@@ -31,7 +31,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Workbook / XlApp", "Wb", "A Workbook or Excel Application", GH_ParamAccess.item);
+            base.RegisterInputParams(pManager);
             pManager.AddTextParameter("Name", "N", "The name of an active Workbook", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
@@ -41,9 +41,8 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            base.RegisterOutputParams(pManager);
             pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -86,8 +85,8 @@ namespace Bumblebee.Components
             workbook = worksheet.Workbook;
             app = workbook.ParentApp;
 
-            DA.SetData(0, worksheet);
-            DA.SetData(1, workbook);
+            DA.SetData(0, workbook);
+            DA.SetData(1, worksheet);
             DA.SetData(2, app);
         }
 

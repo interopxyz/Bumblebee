@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Merge : GH_Ex_Range_Base
+    public class GH_Ex_Merge : GH_Ex_Rng_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Merge class.
@@ -33,7 +33,7 @@ namespace Bumblebee.Components
         {
             base.RegisterInputParams(pManager);
             pManager.AddBooleanParameter("Activate", "_A", "If true, the component will be activated", GH_ParamAccess.item, false);
-            pManager[3].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -56,19 +56,18 @@ namespace Bumblebee.Components
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
 
-            string a = "A1";
-            if(!DA.GetData(1, ref a))return;
-
-            string b = "A1";
-            if (!DA.GetData(2, ref b)) return;
+            IGH_Goo gooR = null;
+            if (!DA.GetData(1, ref gooR)) return;
+            ExRange range = new ExRange();
+            if (!gooR.TryGetRange(ref range)) return;
 
             bool activate = false;
-            DA.GetData(3, ref activate);
+            DA.GetData(2, ref activate);
 
-            if(activate) if(a!=b) worksheet.MergeCells(a, b);
+            if(activate) if(!range.IsSingle) worksheet.MergeCells(range);
 
             DA.SetData(0, worksheet);
-            DA.SetData(1, a);
+            DA.SetData(1, range);
             DA.SetData(2, activate);
         }
 

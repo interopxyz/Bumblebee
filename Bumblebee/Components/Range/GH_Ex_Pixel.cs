@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components.Range
 {
-    public class GH_Ex_Pixel : GH_Ex_Range_Base
+    public class GH_Ex_Pixel : GH_Ex_Rng_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Pixel class.
@@ -33,7 +33,6 @@ namespace Bumblebee.Components.Range
         {
             base.RegisterInputParams(pManager);
             pManager[1].Optional = true;
-            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -56,18 +55,18 @@ namespace Bumblebee.Components.Range
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
 
-            string a = "A1";
-            DA.GetData(1, ref a);
+            IGH_Goo gooR = null;
+            if (!DA.GetData(1, ref gooR)) return;
+            ExRange range = new ExRange();
+            if (!gooR.TryGetRange(ref range)) return;
 
-            string b = "A1";
-            if (!DA.GetData(2, ref b)) b = a;
-
-            Point3d ptA = worksheet.GetRangeMinPixel(a, b);
-            Point3d ptB = worksheet.GetRangeMaxPixel(a, b);
+            Point3d ptA = worksheet.GetRangeMinPixel(range);
+            Point3d ptB = worksheet.GetRangeMaxPixel(range);
 
             DA.SetData(0, worksheet);
-            DA.SetData(1, ptA);
-            DA.SetData(2, ptB);
+            DA.SetData(1, range);
+            DA.SetData(2, ptA);
+            DA.SetData(3, ptB);
         }
 
         /// <summary>

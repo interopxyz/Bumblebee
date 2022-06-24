@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Resize : GH_Ex_Range_Base
+    public class GH_Ex_Resize : GH_Ex_Rng_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Resize class.
@@ -33,9 +33,9 @@ namespace Bumblebee.Components
         {
             base.RegisterInputParams(pManager);
             pManager.AddIntegerParameter("Column Width", "C", "The column width", GH_ParamAccess.item);
-            pManager[3].Optional = true;
+            pManager[2].Optional = true;
             pManager.AddIntegerParameter("Row Height", "R", "The column width", GH_ParamAccess.item);
-            pManager[4].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -56,23 +56,23 @@ namespace Bumblebee.Components
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
 
-            string a = "A1";
-            if (!DA.GetData(1, ref a)) return;
-
-            string b = "A1";
-            if (!DA.GetData(2, ref b)) b = a;
-
-            int width = 10;
-            DA.GetData(3, ref width);
-
-            int height = 15;
-            DA.GetData(4, ref height);
+            IGH_Goo gooR = null;
+            if (!DA.GetData(1, ref gooR)) return;
+            ExRange range = new ExRange();
+                if(!gooR.TryGetRange(ref range))return;
 
             worksheet.Freeze();
-            worksheet.ResizeRangeCells(a, b, width, height);
+
+            int width = 10;
+            if(DA.GetData(2, ref width)) worksheet.RangeWidth(range, width); ;
+
+            int height = 10;
+            if(DA.GetData(3, ref height)) worksheet.RangeHeight(range, height); ;
+
             worksheet.UnFreeze();
 
             DA.SetData(0, worksheet);
+            DA.SetData(1, range);
         }
 
         /// <summary>

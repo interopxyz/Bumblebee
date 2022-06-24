@@ -45,7 +45,7 @@ namespace Bumblebee.Components.Application
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Address", "A", "The resulting cell address", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Address", "A", "The resulting cell address", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Bumblebee.Components.Application
             bool absR = false;
             DA.GetData(3, ref absR);
 
-            DA.SetData(0, Helper.GetCellAddress(col,row,absC,absR));
+            DA.SetData(0, new ExCell(col,row,absC,absR));
         }
 
         /// <summary>

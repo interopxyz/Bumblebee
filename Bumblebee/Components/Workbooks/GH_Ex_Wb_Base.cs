@@ -1,29 +1,24 @@
 ﻿using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Ws_GetAll : GH_Ex_Wb_Base
+    public abstract class GH_Ex_Wb_Base : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_Ex_Ws_GetAll class.
+        /// Initializes a new instance of the GH_Ex_Wb_Base class.
         /// </summary>
-        public GH_Ex_Ws_GetAll()
-          : base("Get Worksheets", "Get Worksheets",
-              "Gets all the worksheets in a workbook or application",
-              Constants.ShortName, Constants.SubWorkSheets)
+        public GH_Ex_Wb_Base()
+          : base("GH_Ex_Ws_Base", "Nickname",
+              "Description",
+              "Category", "Subcategory")
         {
         }
 
-        /// <summary>
-        /// Set Exposure level for the component.
-        /// </summary>
-        public override GH_Exposure Exposure
+        public GH_Ex_Wb_Base(string Name, string NickName, string Description, string Category, string Subcategory) : base(Name, NickName, Description, Category, Subcategory)
         {
-            get { return GH_Exposure.primary; }
         }
 
         /// <summary>
@@ -31,7 +26,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            base.RegisterInputParams(pManager);
+            pManager.AddGenericParameter("Workbook / XlApp", "Wb", "A Workbook or Excel Application", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -39,8 +34,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            base.RegisterOutputParams(pManager);
-            pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,14 +43,6 @@ namespace Bumblebee.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            IGH_Goo goo = null;
-            if (!DA.GetData(0, ref goo)) return;
-            ExWorkbook workbook = goo.ToWorkbook();
-
-            List<ExWorksheet> worksheets =  worksheets = workbook.GetWorksheets();
-            
-            DA.SetData(0, workbook);
-            DA.SetDataList(1, worksheets);
         }
 
         /// <summary>
@@ -77,7 +63,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("fa6fb9e1-1e5f-42f6-b6a9-a66ef15141da"); }
+            get { return new Guid("bee13447-98ab-4b64-b853-1647cda2c461"); }
         }
     }
 }

@@ -81,11 +81,8 @@ namespace Bumblebee
 
         #region data
 
-        public string WriteData(List<ExRow> data, string source)
+        public string WriteData(List<ExRow> data, ExCell source)
         {
-
-            Tuple<int, int> location = Helper.GetCellLocation(source);
-
             int x = data[0].Values.Count;
             int y = data.Count;
 
@@ -104,23 +101,20 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x - 1, location.Item2 + y);
+            string target = Helper.GetCellAddress(source.Column+ x - 1, source.Row + y);
 
-            this.ComObj.Range[source, target].Value = values;
+            this.ComObj.Range[source.ToString(), target].Value = values;
 
             for (int i = 0; i < data[0].Columns.Count; i++)
             {
-                this.ComObj.Columns[location.Item2 + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                this.ComObj.Columns[source.Row + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
             }
 
             return target;
         }
 
-        public string WriteData(List<ExColumn> data, string source)
+        public string WriteData(List<ExColumn> data, ExCell source)
         {
-
-            Tuple<int, int> location = Helper.GetCellLocation(source);
-
             int x = data[0].Values.Count;
             int y = data.Count;
 
@@ -139,23 +133,20 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + y - 1, location.Item2 + x);
+            string target = Helper.GetCellAddress(source.Column + y - 1, source.Row + x);
 
-            this.ComObj.Range[source, target].Value = values;
+            this.ComObj.Range[source.ToString(), target].Value = values;
 
             for (int i = 0; i < data.Count; i++)
             {
-                this.ComObj.Columns[location.Item2 + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                this.ComObj.Columns[source.Row + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
             }
 
             return target;
         }
 
-        public string WriteData(List<List<GH_String>> data, string source)
+        public ExRange WriteData(List<List<GH_String>> data, ExCell source)
         {
-
-            Tuple<int, int> location = Helper.GetCellLocation(source);
-
             int y = data[0].Count;
             int x = data.Count;
 
@@ -169,77 +160,94 @@ namespace Bumblebee
                 }
             }
 
-            string target = Helper.GetCellAddress(location.Item1 + x - 1, location.Item2 + y - 1);
+            string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y - 1);
 
-            this.ComObj.Range[source, target].Value = values;
+            this.ComObj.Range[source.ToString(), target].Value = values;
 
-            return target;
+            return new ExRange(source,new ExCell(target));
         }
 
         #endregion
 
         #region range
 
-        public void ResizeRangeCells(string source, string target, int width, int height)
+        public void RangeWidth(ExRange range, int width)
         {
-
-            this.ComObj.Range[source, target].Columns.ColumnWidth = width;
-            this.ComObj.Range[source, target].Rows.RowHeight = height;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.Columns.ColumnWidth = width;
         }
 
-        public void ClearContent(string source, string target)
+        public void RangeHeight(ExRange range, int height)
         {
-            this.ComObj.Range[source, target].ClearContents();
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.Rows.RowHeight = height;
         }
 
-        public void ClearFormat(string source, string target)
+        public void ClearContent(ExRange range)
         {
-            this.ComObj.Range[source, target].ClearFormats();
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.ClearContents();
         }
 
-        public void MergeCells(string source, string target)
+        public void ClearFormat(ExRange range)
         {
-            this.ComObj.Range[source, target].MergeCells = true;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.ClearFormats();
         }
 
-        public void UnMergeCells(string source, string target)
+        public void MergeCells(ExRange range)
         {
-            this.ComObj.Range[source, target].UnMerge();
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.MergeCells = true;
         }
 
-        public Rg.Point3d GetRangeMinPixel(string source, string target)
+        public void UnMergeCells(ExRange range)
         {
-            double X = this.ComObj.Range[source, target].Left;
-            double Y = this.ComObj.Range[source, target].Top;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.UnMerge();
+        }
+
+        public Rg.Point3d GetRangeMinPixel(ExRange range)
+        {
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+
+            double X = rng.Left;
+            double Y = rng.Top;
 
             return new Rg.Point3d(X, Y, 0);
         }
 
-        public Rg.Point3d GetRangeMaxPixel(string source, string target)
+        public Rg.Point3d GetRangeMaxPixel(ExRange range)
         {
-            double X = this.ComObj.Range[source, target].Left;
-            double Y = this.ComObj.Range[source, target].Top;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
 
-            double W = this.ComObj.Range[source, target].Width;
-            double H = this.ComObj.Range[source, target].Height;
+            double X = rng.Left;
+            double Y = rng.Top;
+
+            double W = rng.Width;
+            double H = rng.Height;
 
             return new Rg.Point3d(X + W, Y + H, 0);
         }
 
         public string GetFirstUsedCell()
         {
-            int X = this.ComObj.UsedRange.Column;
-            int Y = this.ComObj.UsedRange.Row;
+            XL.Range rng = this.ComObj.UsedRange;
+
+            int X = rng.Column;
+            int Y = rng.Row;
 
             return Helper.GetCellAddress(X, Y);
         }
 
         public string GetLastUsedCell()
         {
-            int W = this.ComObj.UsedRange.Columns.Count;
-            int X = this.ComObj.UsedRange.Columns[W].Column;
-            int H = this.ComObj.UsedRange.Rows.Count;
-            int Y = this.ComObj.UsedRange.Rows[H].Row;
+            XL.Range rng = this.ComObj.UsedRange;
+
+            int W = rng.Columns.Count;
+            int X = rng.Columns[W].Column;
+            int H = rng.Rows.Count;
+            int Y = rng.Rows[H].Row;
 
             return Helper.GetCellAddress(X, Y);
         }
@@ -248,10 +256,10 @@ namespace Bumblebee
 
         #region graphics
 
-        public void RangeFont(string source, string target, string name, double size, Sd.Color color, ExApp.Justification justification, bool bold, bool italic)
+        public void RangeFont(ExRange range, string name, double size, Sd.Color color, ExApp.Justification justification, bool bold, bool italic)
         {
-            XL.Range range = this.ComObj.Range[source, target];
-            XL.Font font = range.Font;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            XL.Font font = rng.Font;
 
             font.Name = name;
             font.Size = size;
@@ -259,19 +267,20 @@ namespace Bumblebee
             font.Bold = bold;
             font.Italic = italic;
 
-            range.HorizontalAlignment = justification.ToExcelHalign();
-            range.VerticalAlignment = justification.ToExcelValign();
-
+            rng.HorizontalAlignment = justification.ToExcelHalign();
+            rng.VerticalAlignment = justification.ToExcelValign();
         }
 
-        public void RangeColor(string source, string target, Sd.Color color)
+        public void RangeColor(ExRange range, Sd.Color color)
         {
-            this.ComObj.Range[source, target].Interior.Color = color;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.Interior.Color = color;
         }
 
-        public void RangeBorder(string source, string target, Sd.Color color, ExApp.BorderWeight weight, ExApp.LineType type, ExApp.HorizontalBorder horizontal, ExApp.VerticalBorder vertical)
+        public void RangeBorder(ExRange range, Sd.Color color, ExApp.BorderWeight weight, ExApp.LineType type, ExApp.HorizontalBorder horizontal, ExApp.VerticalBorder vertical)
         {
-            XL.Borders borders = this.ComObj.Range[source, target].Borders;
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            XL.Borders borders = rng.Borders;
             XL.Border left, right, top, bottom;
 
             switch (horizontal)
@@ -339,13 +348,12 @@ namespace Bumblebee
             XL.Shape shape = this.ComObj.Shapes.AddPicture(fileName, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, (float)x, (float)y, 100, 100);
             shape.ScaleWidth((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
             shape.ScaleHeight((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
-
         }
 
-        public void AddSparkline(string source, string target, string placement)
+        public void AddSparkline(ExRange range, string placement)
         {
-            XL.Range range = this.ComObj.Range[source, target];
-            range.SparklineGroups.Add(XL.XlSparkType.xlSparkColumn,placement+":"+placement);
+            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
+            rng.SparklineGroups.Add(XL.XlSparkType.xlSparkColumn,placement+":"+placement);
         }
 
         #endregion

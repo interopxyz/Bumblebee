@@ -13,7 +13,6 @@ namespace Bumblebee
 
         protected int column = 1;
         protected int row = 1;
-        protected string address = "A1";
         protected bool isColumnAbsolute = false;
         protected bool isRowAbsolute = false;
 
@@ -31,7 +30,6 @@ namespace Bumblebee
         {
             this.column = cell.column;
             this.row = cell.row;
-            this.address = cell.address;
 
             this.isColumnAbsolute = cell.isColumnAbsolute;
             this.isRowAbsolute = cell.isRowAbsolute;
@@ -39,29 +37,19 @@ namespace Bumblebee
 
         public ExCell(string address)
         {
-            this.address = address;
-            Tuple<int, int> loc = Helper.GetCellLocation(address);
-            Tuple<bool, bool> abs = Helper.GetCellAbsolute(address);
-
-            this.column = loc.Item1;
-            this.row = loc.Item2;
-
-            this.isColumnAbsolute = abs.Item1;
-            this.isRowAbsolute = abs.Item2;
+            this.Address = address;
         }
 
         public ExCell(int column, int row)
         {
             this.column = column;
             this.row = row;
-            this.address = Helper.GetCellAddress(column, row);
         }
 
         public ExCell(int column, int row, bool absColumn, bool absRow)
         {
             this.column = column;
             this.row = row;
-            this.address = Helper.GetCellAddress(column, row);
             this.isColumnAbsolute = absColumn;
             this.isRowAbsolute = absRow;
         }
@@ -73,16 +61,34 @@ namespace Bumblebee
         public virtual int Column
         {
             get { return column; }
+            set { 
+                this.column = value;
+            }
         }
 
         public virtual int Row
         {
             get { return row; }
+            set
+            {
+                this.row = value;
+            }
         }
 
         public virtual string Address
         {
-            get { return address; }
+            get { return Helper.GetCellAddress(column,row,IsColumnAbsolute,isRowAbsolute); }
+            set
+            {
+                Tuple<int, int> loc = Helper.GetCellLocation(value);
+                Tuple<bool, bool> abs = Helper.GetCellAbsolute(value);
+
+                this.column = loc.Item1;
+                this.row = loc.Item2;
+
+                this.isColumnAbsolute = abs.Item1;
+                this.isRowAbsolute = abs.Item2;
+            }
         }
 
         public virtual bool IsColumnAbsolute
@@ -108,7 +114,7 @@ namespace Bumblebee
 
         public override string ToString()
         {
-            return "Range | " + this.Address;
+            return this.Address;
         }
 
         #endregion

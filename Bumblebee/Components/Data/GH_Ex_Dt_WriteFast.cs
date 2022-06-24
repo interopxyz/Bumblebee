@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components.Data
 {
-    public class GH_Ex_Dt_WriteFast : GH_Component
+    public class GH_Ex_Dt_WriteFast : GH_Ex_Ws_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_FastWrite class.
@@ -33,13 +33,10 @@ namespace Bumblebee.Components.Data
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBooleanParameter("Activate", "A", "", GH_ParamAccess.item, false); 
-            pManager.AddTextParameter("WorkBook", "W", "The name of an active Workbook", GH_ParamAccess.item);
-            pManager[1].Optional = true;
-            pManager.AddTextParameter("WorkSheet", "S", "The name of an active Workbook", GH_ParamAccess.item);
-            pManager[2].Optional = true;
-            pManager.AddTextParameter("Cell Address", "A", "The cell address to start writing to in standard address format. (ex. A1)", GH_ParamAccess.item, "A1");
+            base.RegisterInputParams(pManager);
+            pManager.AddGenericParameter("Cell", "C", "The cell to start writing to", GH_ParamAccess.item);
             pManager.AddTextParameter("Values", "V", "A datatree of values", GH_ParamAccess.tree);
+            pManager.AddBooleanParameter("Activate", "A", "", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -47,9 +44,7 @@ namespace Bumblebee.Components.Data
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("App", "App", "The parent application.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Workbook", "Wb", "The Excel Workbook object", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Worksheet", "Ws", "The Excel Worksheet object", GH_ParamAccess.item);
+            base.RegisterOutputParams(pManager);
             pManager.AddTextParameter("Start Address", "A", "The starting cell address of the range", GH_ParamAccess.item);
             pManager.AddTextParameter("Extent Address", "B", "The cell address at the extent of the range", GH_ParamAccess.item);
         }
@@ -60,16 +55,18 @@ namespace Bumblebee.Components.Data
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            ExApp app = null;
-            ExWorkbook workbook = null;
-            ExWorksheet worksheet = null;
-
             bool active = false;
-            if (!DA.GetData(0, ref active)) return;
+            if (!DA.GetData(3, ref active)) return;
 
             if (active)
             {
-                app = new ExApp();
+                IGH_Goo goo = null;
+                if (!DA.GetData(0, ref goo)) return;
+                ExWorksheet worksheet = goo.ToWorksheet();
+
+                ExCell cell = new ExCell();
+                DA.GetData(1, ref cell);
+
                 string wbName = string.Empty;
                 if(DA.GetData(1,ref wbName))
                 {
@@ -89,9 +86,6 @@ namespace Bumblebee.Components.Data
                 {
                     worksheet = workbook.GetActiveWorksheet();
                 }
-
-                string address = "A1";
-                DA.GetData(3, ref address);
 
                 GH_Structure<GH_String> ghData = new GH_Structure<GH_String> ();
 

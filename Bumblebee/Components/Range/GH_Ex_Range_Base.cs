@@ -5,19 +5,19 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public abstract class GH_Ex_Range_Base : GH_Component
+    public abstract class GH_Ex_Rng_Base : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Range_Basecs class.
         /// </summary>
-        public GH_Ex_Range_Base()
-          : base("GH_Ex_Range_Basecs", "Nickname",
+        public GH_Ex_Rng_Base()
+          : base("GH_Ex_Range_Base", "Nickname",
               "Description",
               "Category", "Subcategory")
         {
         }
 
-        public GH_Ex_Range_Base(string Name, string NickName, string Description, string Category, string Subcategory) : base(Name, NickName, Description, Category, Subcategory)
+        public GH_Ex_Rng_Base(string Name, string NickName, string Description, string Category, string Subcategory) : base(Name, NickName, Description, Category, Subcategory)
         {
         }
 
@@ -27,8 +27,7 @@ namespace Bumblebee.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
-            pManager.AddTextParameter("Start Address", "S", "The starting cell address of the range", GH_ParamAccess.item);
-            pManager.AddTextParameter("Extent Address", "E", "The cell address that sets the bounding extent of the range", GH_ParamAccess.item);
+            pManager.AddTextParameter("Range", "R", "The Excel Cell Range", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -37,6 +36,7 @@ namespace Bumblebee.Components
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Worksheet", "Ws", "The updated worksheet", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Range", "R", "The Excel Cell Range", GH_ParamAccess.item);
         }
 
         /// <summary>

@@ -1,11 +1,12 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Ws_Activate : GH_Component
+    public class GH_Ex_Ws_Activate : GH_Ex_Ws_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Ws_Activate class.
@@ -30,7 +31,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet", "Ws", "An Excel Worksheet", GH_ParamAccess.item);
+            base.RegisterInputParams(pManager);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet", "Ws", "An Excel Worksheet", GH_ParamAccess.item);
+            base.RegisterOutputParams(pManager);
         }
 
         /// <summary>
@@ -47,9 +48,9 @@ namespace Bumblebee.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            ExWorksheet worksheet = null;
-
-            if (!DA.GetData<ExWorksheet>(0, ref worksheet)) return;
+            IGH_Goo goo = null;
+            if (!DA.GetData(0, ref goo)) return;
+            ExWorksheet worksheet = goo.ToWorksheet();
 
             worksheet.Activate();
 

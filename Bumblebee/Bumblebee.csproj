@@ -64,6 +64,8 @@
     <Compile Include="Components\Objects\GH_Ex_ObjPicture.cs" />
     <Compile Include="Components\Range\GH_Ex_Extents.cs" />
     <Compile Include="Components\Range\GH_Ex_UnMerge.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wb_Base.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Ws_Base.cs" />
     <Compile Include="Extensions\ExExtensions.cs" />
     <Compile Include="Extensions\GhExtensions.cs" />
     <Compile Include="Classes\ExCell.cs" />

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Bumblebee.Components.Range
 {
-    public class GH_Ex_Clear : GH_Ex_Range_Base
+    public class GH_Ex_Clear : GH_Ex_Rng_Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Clear class.
@@ -48,8 +48,6 @@ namespace Bumblebee.Components.Range
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             base.RegisterOutputParams(pManager);
-            pManager.AddTextParameter("Start Address", "A", "The starting cell address of the range", GH_ParamAccess.item);
-            pManager.AddTextParameter("Extent Address", "B", "The cell address that sets the bounding extent of the range", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Status", "S", "Returns the status of the activate input", GH_ParamAccess.item);
         }
 
@@ -63,11 +61,10 @@ namespace Bumblebee.Components.Range
             if (!DA.GetData(0, ref goo)) return;
             ExWorksheet worksheet = goo.ToWorksheet();
 
-            string a = "A1";
-            if(!DA.GetData(1, ref a)) a = worksheet.GetFirstUsedCell();
-
-            string b = "A1";
-            if (!DA.GetData(2, ref b)) b = worksheet.GetLastUsedCell();
+            IGH_Goo gooR = null;
+            if (!DA.GetData(1, ref gooR)) return;
+            ExRange range = new ExRange();
+            if (!gooR.TryGetRange(ref range)) return;
 
             bool content = true;
             DA.GetData(3, ref content);
@@ -80,14 +77,13 @@ namespace Bumblebee.Components.Range
 
             if (activate)
             {
-                if (content) worksheet.ClearContent(a, b);
-                if (format) worksheet.ClearFormat(a, b);
+                if (content) worksheet.ClearContent(range);
+                if (format) worksheet.ClearFormat(range);
             }
 
             DA.SetData(0, worksheet);
-            DA.SetData(1, a);
-            DA.SetData(2, b);
-            DA.SetData(3, activate);
+            DA.SetData(1, range);
+            DA.SetData(2, activate);
         }
 
         /// <summary>
