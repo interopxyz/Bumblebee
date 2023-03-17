@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using XL = Microsoft.Office.Interop.Excel;
+using Vi = Microsoft.Vbe.Interop;
 
 namespace Bumblebee
 {
@@ -43,7 +44,7 @@ namespace Bumblebee
 
         public virtual string Name
         {
-            get { return name;}
+            get { return System.IO.Path.GetFileNameWithoutExtension(name); }
         }
 
         public virtual ExApp ParentApp
@@ -61,9 +62,11 @@ namespace Bumblebee
             this.name = comObject.Name;
         }
 
-        public void Save(string filename)
+        public void Save(string filename, Extensions extension)
         {
-            this.ComObj.SaveAs(filename);
+            this.ComObj.Application.DisplayAlerts = false;
+            this.ComObj.SaveAs(filename, extension.ToExcel());
+            this.ComObj.Application.DisplayAlerts = true;
             this.name = this.ComObj.Name;
         }
 
@@ -124,13 +127,41 @@ namespace Bumblebee
             this.ComObj.Activate();
         }
 
+        public void AddMacro(string name, string content, VbModuleType type)
+        {
+            Vi.VBComponent component = null;
+            bool isNew = true;
+
+            foreach (Vi.VBComponent comp in this.ComObj.VBProject.VBComponents)
+            {
+                if (comp.Name == name)
+                {
+                    isNew = false;
+                    component = comp;
+                }
+            }
+            if (isNew)
+            {
+                component = this.ComObj.VBProject.VBComponents.Add(type.ToExcel());
+                component.Name = name;
+            }
+
+            component.CodeModule.DeleteLines(1, component.CodeModule.CountOfLines);
+            component.CodeModule.AddFromString(content);
+        }
+
+        public void RunMacro(string name)
+        {
+            this.ComObj.Application.Run(name);
+        }
+
         #endregion
 
         #region overrides
 
         public override string ToString()
         {
-            return "Workbook | "+Name;
+            return "Workbook | " + Name;
         }
 
         #endregion

@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Rg = Rhino.Geometry;
 using Sd = System.Drawing;
 
+using Rg = Rhino.Geometry;
+
 using XL = Microsoft.Office.Interop.Excel;
+using Grasshopper.Kernel;
 
 namespace Bumblebee
 {
@@ -27,6 +29,12 @@ namespace Bumblebee
 
         public ExWorksheet()
         {
+        }
+
+        public ExWorksheet(ExRange range)
+        {
+            this.ComObj = range.ComObj.Worksheet;
+            this.name = this.ComObj.Name;
         }
 
         public ExWorksheet(XL.Worksheet comObj)
@@ -48,6 +56,11 @@ namespace Bumblebee
         public virtual string Name
         {
             get { return name; }
+            set 
+            { 
+                this.name = value;
+                if (this.ComObj != null) this.ComObj.Name = this.name;
+            }
         }
 
         public virtual ExWorkbook Workbook
@@ -55,9 +68,28 @@ namespace Bumblebee
             get { return new ExWorkbook((XL.Workbook)(this.ComObj.Parent)); }
         }
 
+        public virtual ExApp ParentApp
+        {
+            get { return new ExApp(this.ComObj.Application); }
+        }
+
         #endregion
 
         #region methods
+
+        public static ExWorksheet ActiveWorksheet()
+        {
+            ExApp app = new ExApp();
+            return app.GetActiveWorksheet();
+        }
+
+        public static ExWorksheet ActiveWorksheet(string sheetName)
+        {
+            ExApp app = new ExApp();
+            ExWorkbook book = app.GetActiveWorkbook();
+            ExWorksheet sheet = book.GetWorksheet(sheetName);
+            return sheet;
+        }
 
         public void Freeze()
         {
@@ -79,50 +111,128 @@ namespace Bumblebee
             this.ComObj.Activate();
         }
 
+        public void Listen(GH_Component component, bool activate)
+        {
+            this.ComObj.Change -= (o) => { component.ExpireSolution(true); };
+            if(activate) this.ComObj.Change += (o) => { component.ExpireSolution(true); };
+        }
+
+        public void ClearSheet()
+        {
+            ExRange range = this.GetUsedRange();
+            range.ClearContent();
+            range.ClearFormat();
+        }
+
         #region data
 
-        public string WriteData(List<ExRow> data, ExCell source)
+        public ExRange WriteData(List<ExRow> data, ExCell source)
         {
-            int x = data[0].Values.Count;
-            int y = data.Count;
+            int count = 0;
+            Dictionary<string, List<string>> values = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> formats = new Dictionary<string, List<string>>();
 
-            string[,] values = new string[y + 1, x + 0];
-
-            for (int i = 0; i < data[0].Columns.Count; i++)
+            foreach (ExRow row in data)
             {
-                values[0, i] = data[0].Columns[i];
-            }
-
-            for (int i = 0; i < x; i++)
-            {
-                for (int j = 0; j < y; j++)
+                foreach (string name in row.Columns)
                 {
-                    values[j + 1, i] = data[j].Values[i];
+                    if (!values.ContainsKey(name))
+                    {
+                    values.Add(name, new List<string>());
+                    formats.Add(name, new List<string>());
+                    }
                 }
             }
 
-            string target = Helper.GetCellAddress(source.Column+ x - 1, source.Row + y);
-
-            this.ComObj.Range[source.ToString(), target].Value = values;
-
-            for (int i = 0; i < data[0].Columns.Count; i++)
+            foreach (ExRow row in data)
             {
-                this.ComObj.Columns[source.Row + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                foreach(string key in values.Keys)
+                {
+                    if (row.Columns.Contains(key))
+                    {
+                        int i = row.Columns.IndexOf(key);
+                        values[key].Add(row.Values[i]);
+                        formats[key].Add(row.Formats[i]);
+                    }
+                    else
+                    {
+                        values[key].Add("");
+                        formats[key].Add("General");
+                    }
+                }
             }
 
-            return target;
+            List<ExColumn> columns = new List<ExColumn>();
+            foreach (string key in values.Keys)
+            {
+                columns.Add(new ExColumn(key, values[key], formats[key][0]));
+            }
+
+                //int x = data[0].Values.Count;
+                //int y = data.Count;
+
+                //string[,] values = new string[y + 1, x];
+                //double[,] numbers = new double[y + 1, x];
+                //double num = 0;
+                //bool isNumeric = true;
+                //List<bool> colNumeric = new List<bool>();
+
+                //for (int i = 0; i < data[0].Columns.Count; i++)
+                //{
+                //    values[0, i] = data[0].Columns[i];
+                //    if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
+                //    colNumeric.Add(true);
+                //}
+
+                //for (int i = 0; i < x; i++)
+                //{
+                //    for (int j = 0; j < y; j++)
+                //    {
+                //        values[j + 1, i] = data[j].Values[i];
+                //        if (double.TryParse(values[j + 1, i], out num))
+                //        {
+                //            numbers[j + 1, i] = num;
+                //        }
+                //        else
+                //        {
+                //            isNumeric = false;
+                //            colNumeric[i] = false;
+                //        }
+                //    }
+                //}
+
+                //string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y);
+
+                //XL.Range rng = this.ComObj.Range[source.ToString(), target];
+
+                //if (isNumeric) SetData(rng, numbers);
+                //if (!isNumeric) SetData(rng, values);
+
+                //for (int i = 0; i < data[0].Columns.Count; i++)
+                //{
+                //    //if (colNumeric[i]) this.ComObj.Columns[source.Column + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                //    //this.ComObj.Columns[source.Column + i].NumberFormat = data[0].Formats[i];
+                //}
+
+                return WriteData(columns, source);
         }
 
-        public string WriteData(List<ExColumn> data, ExCell source)
+        public ExRange WriteData(List<ExColumn> data, ExCell source)
         {
             int x = data[0].Values.Count;
             int y = data.Count;
 
-            string[,] values = new string[x + 1, y + 0];
+            string[,] values = new string[x+1, y];
+            double[,] numbers = new double[x+1, y];
+            bool isNumeric = true;
+            List<bool> colNumeric = new List<bool>();
 
+            double num;
             for (int i = 0; i < y; i++)
             {
                 values[0, i] = data[i].Name;
+                if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
+                colNumeric.Add(true);
             }
 
             for (int i = 0; i < x; i++)
@@ -130,19 +240,35 @@ namespace Bumblebee
                 for (int j = 0; j < y; j++)
                 {
                     values[i + 1, j] = data[j].Values[i];
+                    if (double.TryParse(values[i + 1, j], out num))
+                    {
+                        numbers[i + 1, j] = num;
+                    }
+                    else
+                    {
+                        isNumeric = false;
+                        colNumeric[j] = false;
+                    }
+                    
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + y - 1, source.Row + x);
 
-            this.ComObj.Range[source.ToString(), target].Value = values;
+            XL.Range rng = this.ComObj.Range[source.ToString(), target];
+
+            if (isNumeric) SetData(rng, numbers);
+            if (!isNumeric) SetData(rng, values);
+
+            //rng.NumberFormat = "General";
 
             for (int i = 0; i < data.Count; i++)
             {
-                this.ComObj.Columns[source.Row + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                if(colNumeric[i]) this.ComObj.Range[new ExCell(source.Column+i,source.Row+1).ToString(), new ExCell(source.Column + i, source.Row+x).ToString()].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
+                    this.ComObj.Columns[source.Column + i].NumberFormat = data[i].Format;
             }
 
-            return target;
+            return new ExRange(rng);
         }
 
         public ExRange WriteData(List<List<GH_String>> data, ExCell source)
@@ -151,83 +277,64 @@ namespace Bumblebee
             int x = data.Count;
 
             string[,] values = new string[y, x];
+            double[,] numbers = new double[y, x];
+            double num = 0;
+            bool isNumeric = true;
 
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
                     values[j, i] = data[i][j].Value;
+                    if (double.TryParse(values[j, i], out num)) numbers[j, i] = num; else isNumeric = false;
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y - 1);
+            XL.Range rng = this.ComObj.Range[source.ToString(), target];
 
-            this.ComObj.Range[source.ToString(), target].Value = values;
+            if (isNumeric) SetData(rng,numbers);
+            if (!isNumeric) SetData(rng, values);
 
-            return new ExRange(source,new ExCell(target));
+            return GetRange(source, new ExCell(target));
+        }
+
+        protected void SetData(XL.Range rng, string[,] values)
+        {
+            rng.NumberFormat = "@";
+            rng.Value2 = values;
+        }
+
+        protected void SetData(XL.Range rng, double[,] values)
+        {
+            rng.NumberFormat = "0.00";
+            rng.Value2 = values;
         }
 
         #endregion
 
         #region range
 
-        public void RangeWidth(ExRange range, int width)
+        public ExRange GetRange(ExCell start, ExCell extent)
         {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.Columns.ColumnWidth = width;
+            XL.Range rng = this.ComObj.Range[start.ToString(), extent.ToString()];
+            return new ExRange(rng);
         }
 
-        public void RangeHeight(ExRange range, int height)
+        public ExRange GetRange(string range)
         {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.Rows.RowHeight = height;
+            string[] cells = range.Split(':');
+            ExCell start = new ExCell(cells[0]);
+            ExCell extent = new ExCell(cells[0]);
+            if (cells.Count() > 1) extent = new ExCell(cells[1]);
+
+            XL.Range rng = this.ComObj.Range[start.ToString(), extent.ToString()];
+            return new ExRange(rng);
         }
 
-        public void ClearContent(ExRange range)
+        public ExRange GetUsedRange()
         {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.ClearContents();
-        }
-
-        public void ClearFormat(ExRange range)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.ClearFormats();
-        }
-
-        public void MergeCells(ExRange range)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.MergeCells = true;
-        }
-
-        public void UnMergeCells(ExRange range)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.UnMerge();
-        }
-
-        public Rg.Point3d GetRangeMinPixel(ExRange range)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-
-            double X = rng.Left;
-            double Y = rng.Top;
-
-            return new Rg.Point3d(X, Y, 0);
-        }
-
-        public Rg.Point3d GetRangeMaxPixel(ExRange range)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-
-            double X = rng.Left;
-            double Y = rng.Top;
-
-            double W = rng.Width;
-            double H = rng.Height;
-
-            return new Rg.Point3d(X + W, Y + H, 0);
+            return new ExRange(this.ComObj.UsedRange); ;
         }
 
         public string GetFirstUsedCell()
@@ -254,107 +361,25 @@ namespace Bumblebee
 
         #endregion
 
-        #region graphics
+        #region objects
 
-        public void RangeFont(ExRange range, string name, double size, Sd.Color color, ExApp.Justification justification, bool bold, bool italic)
+        public void AddPicture(string name, string fileName, double x, double y, double scale)
         {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            XL.Font font = rng.Font;
-
-            font.Name = name;
-            font.Size = size;
-            font.Color = color;
-            font.Bold = bold;
-            font.Italic = italic;
-
-            rng.HorizontalAlignment = justification.ToExcelHalign();
-            rng.VerticalAlignment = justification.ToExcelValign();
-        }
-
-        public void RangeColor(ExRange range, Sd.Color color)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.Interior.Color = color;
-        }
-
-        public void RangeBorder(ExRange range, Sd.Color color, ExApp.BorderWeight weight, ExApp.LineType type, ExApp.HorizontalBorder horizontal, ExApp.VerticalBorder vertical)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            XL.Borders borders = rng.Borders;
-            XL.Border left, right, top, bottom;
-
-            switch (horizontal)
+            foreach(XL.Shape shp in this.ComObj.Shapes)
             {
-                case ExApp.HorizontalBorder.Both:
-                    bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
-                    bottom.Weight = weight.ToExcel();
-                    bottom.Color = color;
-                    bottom.LineStyle = type.ToExcel();
-
-                    top = borders[XL.XlBordersIndex.xlEdgeTop];
-                    top.Weight = weight.ToExcel();
-                    top.Color = color;
-                    top.LineStyle = type.ToExcel();
-                    break;
-                case ExApp.HorizontalBorder.Bottom:
-                    bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
-                    bottom.Weight = weight.ToExcel();
-                    bottom.Color = color;
-                    bottom.LineStyle = type.ToExcel();
-                    break;
-                case ExApp.HorizontalBorder.Top:
-                    top = borders[XL.XlBordersIndex.xlEdgeTop];
-                    top.Weight = weight.ToExcel();
-                    top.Color = color;
-                    top.LineStyle = type.ToExcel();
-                    break;
+                if (shp.Name == name) shp.Delete();
             }
 
-            switch (vertical)
-            {
-                case ExApp.VerticalBorder.Both:
-                    left = borders[XL.XlBordersIndex.xlEdgeLeft];
-                    left.Weight = weight.ToExcel();
-                    left.Color = color;
-                    left.LineStyle = type.ToExcel();
-
-                    right = borders[XL.XlBordersIndex.xlEdgeRight];
-                    right.Weight = weight.ToExcel();
-                    right.Color = color;
-                    right.LineStyle = type.ToExcel();
-                    break;
-                case ExApp.VerticalBorder.Left:
-                    left = borders[XL.XlBordersIndex.xlEdgeLeft];
-                    left.Weight = weight.ToExcel();
-                    left.Color = color;
-                    left.LineStyle = type.ToExcel();
-                    break;
-                case ExApp.VerticalBorder.Right:
-                    right = borders[XL.XlBordersIndex.xlEdgeRight];
-                    right.Weight = weight.ToExcel();
-                    right.Color = color;
-                    right.LineStyle = type.ToExcel();
-                    break;
-            }
-
+            XL.Shape shape = this.ComObj.Shapes.AddPicture(fileName, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, (float)x, (float)y, 100, 100);
+            shape.ScaleWidth((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
+            shape.ScaleHeight((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
+            shape.Name = name;
         }
 
         #endregion
 
-        #region objects
+        #region controls
 
-        public void AddPicture(string fileName, double x, double y, double scale)
-        {
-            XL.Shape shape = this.ComObj.Shapes.AddPicture(fileName, Microsoft.Office.Core.MsoTriState.msoTrue, Microsoft.Office.Core.MsoTriState.msoTrue, (float)x, (float)y, 100, 100);
-            shape.ScaleWidth((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
-            shape.ScaleHeight((float)scale, Microsoft.Office.Core.MsoTriState.msoTrue);
-        }
-
-        public void AddSparkline(ExRange range, string placement)
-        {
-            XL.Range rng = this.ComObj.Range[range.Start.ToString(), range.Extent.ToString()];
-            rng.SparklineGroups.Add(XL.XlSparkType.xlSparkColumn,placement+":"+placement);
-        }
 
         #endregion
 

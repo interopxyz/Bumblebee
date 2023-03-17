@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,6 @@ namespace Bumblebee
         #region members
 
         public XL.Application ComObj = null;
-        public enum HorizontalBorder{None,Bottom,Top,Both };
-        public enum VerticalBorder { None, Left, Right, Both };
-        public enum LineType { None, Continuous, Dash, DashDot, DashDotDot, Dot, Double, SlantDashDot };
-        public enum BorderWeight { Hairline, Thin, Medium, Thick };
-        public enum Justification { BottomLeft, BottomMiddle, BottomRight, CenterLeft, CenterMiddle, CenterRight, TopLeft, TopMiddle, TopRight };
 
         #endregion
 
@@ -26,14 +22,15 @@ namespace Bumblebee
 
         public ExApp()
         {
-            Object obj = null;
             try
-            { this.ComObj = (XL.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application"); }
+            { 
+                this.ComObj = (XL.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application"); 
+            }
             catch (Exception e)
             {
                 this.ComObj = new XL.Application();
             }
-
+            if (this.ComObj.ActiveWorkbook == null) this.ComObj.Workbooks.Add();
             if(! this.ComObj.Visible) this.ComObj.Visible = true;
         }
 
@@ -90,10 +87,12 @@ namespace Bumblebee
         public ExWorkbook GetWorkbook(string name)
         {
             ExWorkbook output = new ExWorkbook();
-            
-            foreach(XL.Workbook workbook in this.ComObj.Workbooks)
+
+            foreach (XL.Workbook workbook in this.ComObj.Workbooks)
             {
-                if (workbook.Name == name)
+            string file = Path.ChangeExtension(workbook.Name, null);
+                
+                if (file == name)
                 {
                     output.Set(workbook);
                     return output;
@@ -155,9 +154,10 @@ namespace Bumblebee
         {
             ExWorksheet output = new ExWorksheet();
 
-            if (this.ComObj.Worksheets.Count < 1)
+            if (this.ComObj.ActiveSheet == null)
             {
-                XL.Worksheet sheet = this.ComObj.Worksheets.Add();
+                XL.Workbook book = this.ComObj.Workbooks.Add();
+                XL.Worksheet sheet = book.Worksheets.Add();
                 output = new ExWorksheet(sheet);
             }
             else
@@ -174,7 +174,10 @@ namespace Bumblebee
 
         #region overrides
 
-
+        public override string ToString()
+        {
+            return "Excel | App";
+        }
 
         #endregion
 

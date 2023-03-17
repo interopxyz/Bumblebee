@@ -4,9 +4,9 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace Bumblebee.Components.Objects
+namespace Bumblebee.Components
 {
-    public class GH_Ex_ObjPicture : GH_Component
+    public class GH_Ex_ObjPicture : GH_Ex_Wks__Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_ObjPicture class.
@@ -31,14 +31,16 @@ namespace Bumblebee.Components.Objects
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet / Workbook / App", "Ws", "A Workbook, Worksheet, or Excel Application", GH_ParamAccess.item);
-            pManager.AddTextParameter("Filepath", "P", "A filepath to an image", GH_ParamAccess.item);
-            pManager.AddPointParameter("Location", "L", "A pixel based location for the image", GH_ParamAccess.item, new Point3d(100, 100, 0));
+            base.RegisterInputParams(pManager);
+            pManager.AddTextParameter("Name", "N", "An optional object name", GH_ParamAccess.item);
+            pManager[1].Optional = true;
+            pManager.AddPointParameter("Location", "L", "A pixel based location for the image", GH_ParamAccess.item);
             pManager[2].Optional = true;
             pManager.AddNumberParameter("Scale", "S", "A scale value", GH_ParamAccess.item, 1.0);
             pManager[3].Optional = true;
-            pManager.AddBooleanParameter("Activate", "_A", "If true, the component will be activated", GH_ParamAccess.item, false);
-            pManager[4].Optional = true;
+            pManager.AddTextParameter("Filepath", "P", "A filepath to an image", GH_ParamAccess.item);
+            pManager.AddBooleanParameter(Constants.Activate.Name, Constants.Activate.NickName, Constants.Activate.Input, GH_ParamAccess.item, false);
+            pManager[5].Optional = true;
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace Bumblebee.Components.Objects
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Worksheet", "Ws", "The updated worksheet", GH_ParamAccess.item);
+            base.RegisterOutputParams(pManager);
         }
 
         /// <summary>
@@ -55,12 +57,13 @@ namespace Bumblebee.Components.Objects
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            IGH_Goo goo = null;
-            if (!DA.GetData(0, ref goo)) return;
-            ExWorksheet worksheet = goo.ToWorksheet();
+            IGH_Goo gooS = null;
+            if (!DA.GetData(0, ref gooS)) return;
+            ExWorksheet worksheet = null;
+            if (!gooS.TryGetWorksheet(ref worksheet)) return;
 
-            string filepath = string.Empty;
-            if (!DA.GetData(1, ref filepath)) return;
+            string name = GetInstanceName();
+            DA.GetData(1, ref name);
 
             Point3d location = new Point3d(100, 100, 0);
             DA.GetData(2, ref location);
@@ -68,10 +71,13 @@ namespace Bumblebee.Components.Objects
             double scale = 1.0;
             DA.GetData(3, ref scale);
 
-            bool activate = false;
-            DA.GetData(4, ref activate);
+            string filepath = string.Empty;
+            if (!DA.GetData(4, ref filepath)) return;
 
-            if(activate) worksheet.AddPicture(filepath, location.X, location.Y, scale);
+            bool activate = false;
+            DA.GetData(5, ref activate);
+
+            if(activate) worksheet.AddPicture(name,filepath, location.X, location.Y, scale);
 
             DA.SetData(0, worksheet);
         }
