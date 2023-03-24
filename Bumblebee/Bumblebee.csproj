@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{11F376C6-5520-45A6-9140-A5C3722841BC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bumblebee</RootNamespace>
+    <AssemblyName>Bumblebee</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="RhinoCommon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Rhino 6\System\rhinocommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GH_IO">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Rhino 6\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BumblebeeInfo.cs" />
+    <Compile Include="Classes\ExChart.cs" />
+    <Compile Include="Classes\ExEnums.cs" />
+    <Compile Include="Classes\ExFont.cs" />
+    <Compile Include="Classes\ExGraphic.cs" />
+    <Compile Include="Classes\ExShape.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondAverage.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondBar.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondBetween.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondBlank.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondScale.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondTopCount.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondTopPercent.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondUnique.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_CondVal.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_SparkLine.cs" />
+    <Compile Include="Components\Analysis\GH_Ex_Ana_SparkColumn.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Cel_Addresses.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Cel_AddressesRange.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartBar.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht__Base.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartColumn.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartLine.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartRadial.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartScatter.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_ChartSurface.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht__ModBase.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_SetDecorate.cs" />
+    <Compile Include="Components\Charting\GH_Ex_Cht_SetGraphics.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dst_ReadData.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetBorder.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetFont.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetBorder.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetFill.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetFont.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_Button.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_CheckBox.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_Dropdown.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_Label.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_ListBox.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_Scroller.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_Spinner.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl_TextInput.cs" />
+    <Compile Include="Components\Objects\GH_Ex_ObjPicture.cs" />
+    <Compile Include="Components\Objects\Controls\GH_Ex_Ctl__Base.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_SetGraphics.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Arrow.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp__Base.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Figure.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_FlowChart.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Geometry.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Line.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Star.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_Symbol.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Active.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Extents.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Ranges.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_UnMerge.cs" />
+    <Compile Include="Components\Objects\Smart\GH_Ex_Smt__Base.cs" />
+    <Compile Include="Components\Objects\Smart\GH_Ex_Smt_SmartList.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk__Base.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_AddMacro.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_RunMacro.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks__Base.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_Edit.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_Freeze.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_Listen.cs" />
+    <Compile Include="Extensions\BbExtensions.cs" />
+    <Compile Include="Extensions\ExExtensions.cs" />
+    <Compile Include="Extensions\GhExtensions.cs" />
+    <Compile Include="Classes\ExCell.cs" />
+    <Compile Include="Classes\ExColumn.cs" />
+    <Compile Include="Classes\ExData.cs" />
+    <Compile Include="Classes\ExRange.cs" />
+    <Compile Include="Classes\ExApp.cs" />
+    <Compile Include="Classes\ExRow.cs" />
+    <Compile Include="Classes\ExWorkbook.cs" />
+    <Compile Include="Classes\ExWorksheet.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Resize.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dst_SetColumn.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dst_WriteFast.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetFill.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Cel_Address.cs" />
+    <Compile Include="Components\Application\GH_Ex_App_Get.cs" />
+    <Compile Include="Components\Cell\GH_Ex_Cel_Location.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dst_SetRow.cs" />
+    <Compile Include="Components\Data\GH_Ex_Dst_WriteData.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Clear.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Merge.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng_Pixel.cs" />
+    <Compile Include="Components\Range\GH_Ex_Rng__Base.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_Activate.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_GetAll.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_Save.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_Get.cs" />
+    <Compile Include="Components\Workbooks\GH_Ex_Wbk_Load.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_Activate.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_Get.cs" />
+    <Compile Include="Components\Worksheets\GH_Ex_Wks_GetAll.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\Helper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-App-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Address-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Dataset-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Location-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-DataSet-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Columns-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Rows-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Extents-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-TabLogo-C-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Addresses2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Fill3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Border3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Pixel2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_SizeD-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Clear2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_Merge3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Range_UnMerge3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Obj_Picture1-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_Sparkline-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Write_Fast-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Read-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Write-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Active3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-AddressesRng-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Books-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheets-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book_Set-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Set-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book-Save-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book-Load-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet-Listen2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet_Edit-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-GetBorder3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-GetFill3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-SubRanges-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Sheet-Freeze-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-Font-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics_Fill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics_Border.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-GetFill-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-GetBorder-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Graphics-GetFont-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cell_Sparkline3-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Between-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Blank-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Count-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Percent-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Scale-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Unique-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Value-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Average-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Cond-Bar-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book_Macro2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book_RunMacro-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Book_RunMacro2-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Radial-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Bar-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Column-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Line-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Scatter-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Surface-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Decorate-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Chart_Graphics-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Line-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Check-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Button-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_ListBox-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Dropdown-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Scroller-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Label-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Spinner-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Controls_Field-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Figure-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Arrow-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Star-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Math-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Geometry-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Flow-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Graphics-01.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
+Erase "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+</Project>
