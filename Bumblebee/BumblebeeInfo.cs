@@ -54,6 +54,14 @@ namespace Bumblebee
                 return "";
             }
         }
+
+        public override string AssemblyVersion
+        {
+            get
+            {
+                return "1.0.1.0";
+            }
+        }
     }
 
     public class BitmapPlusCategoryIcon : GH_AssemblyPriority

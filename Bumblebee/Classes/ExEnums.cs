@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Bumblebee
 {
 
-    public enum HorizontalBorder { None, Bottom, Top, Both };
-    public enum VerticalBorder { None, Left, Right, Both };
+    public enum HorizontalBorder { None, Bottom, Top, Both, Between, All };
+    public enum VerticalBorder { None, Left, Right, Both, Between, All };
     public enum LineType { None, Continuous, Dash, DashDot, DashDotDot, Dot, Double, SlantDashDot };
     public enum BorderWeight { Hairline, Thin, Medium, Thick, None };
     public enum Justification { BottomLeft, BottomMiddle, BottomRight, CenterLeft, CenterMiddle, CenterRight, TopLeft, TopMiddle, TopRight };

@@ -8,12 +8,12 @@ using Sd = System.Drawing;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_Rng_Font : GH_Ex_Rng__Base
+    public class GH_Ex_Rng_SetFont : GH_Ex_Rng__Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_CellFont class.
         /// </summary>
-        public GH_Ex_Rng_Font()
+        public GH_Ex_Rng_SetFont()
           : base("Range Font", "Rng Font",
               "Sets the Range font properties",
               Constants.ShortName, Constants.SubGraphics)

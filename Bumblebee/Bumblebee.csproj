@@ -87,8 +87,8 @@
     <Compile Include="Components\Charting\GH_Ex_Cht_SetDecorate.cs" />
     <Compile Include="Components\Charting\GH_Ex_Cht_SetGraphics.cs" />
     <Compile Include="Components\Data\GH_Ex_Dst_ReadData.cs" />
-    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_Border.cs" />
-    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_Font.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetBorder.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetFont.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetBorder.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetFill.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetFont.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Components\Range\GH_Ex_Rng_Resize.cs" />
     <Compile Include="Components\Data\GH_Ex_Dst_SetColumn.cs" />
     <Compile Include="Components\Data\GH_Ex_Dst_WriteFast.cs" />
-    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_Fill.cs" />
+    <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetFill.cs" />
     <Compile Include="Components\Cell\GH_Ex_Cel_Address.cs" />
     <Compile Include="Components\Application\GH_Ex_App_Get.cs" />
     <Compile Include="Components\Cell\GH_Ex_Cel_Location.cs" />

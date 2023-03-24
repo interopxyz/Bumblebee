@@ -7,12 +7,12 @@ using Sd = System.Drawing;
 
 namespace Bumblebee.Components
 {
-    public class GH_Ex_CellColor : GH_Ex_Rng__Base
+    public class GH_Ex_SetFill : GH_Ex_Rng__Base
     {
         /// <summary>
         /// Initializes a new instance of the GH_Ex_Vs_ColorCell class.
         /// </summary>
-        public GH_Ex_CellColor()
+        public GH_Ex_SetFill()
           : base("Range Color", "Rng Clr",
               "Sets the Range fill color properties",
               Constants.ShortName, Constants.SubGraphics)

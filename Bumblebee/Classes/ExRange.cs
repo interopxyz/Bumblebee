@@ -325,10 +325,32 @@ namespace Bumblebee
         public void SetBorder(Sd.Color color, BorderWeight weight, LineType type, HorizontalBorder horizontal, VerticalBorder vertical)
         {
             XL.Borders borders = this.ComObj.Borders;
-            XL.Border left, right, top, bottom;
+            XL.Border left, right, top, bottom, betweenHorizontal, betweenVertical;
 
             switch (horizontal)
             {
+                case HorizontalBorder.All:
+                    bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
+                    bottom.Weight = weight.ToExcel();
+                    bottom.Color = color;
+                    bottom.LineStyle = type.ToExcel();
+
+                    betweenHorizontal = borders[XL.XlBordersIndex.xlInsideHorizontal];
+                    betweenHorizontal.Weight = weight.ToExcel();
+                    betweenHorizontal.Color = color;
+                    betweenHorizontal.LineStyle = type.ToExcel();
+
+                    top = borders[XL.XlBordersIndex.xlEdgeTop];
+                    top.Weight = weight.ToExcel();
+                    top.Color = color;
+                    top.LineStyle = type.ToExcel();
+                    break;
+                case HorizontalBorder.Between:
+                    betweenHorizontal = borders[XL.XlBordersIndex.xlInsideHorizontal];
+                    betweenHorizontal.Weight = weight.ToExcel();
+                    betweenHorizontal.Color = color;
+                    betweenHorizontal.LineStyle = type.ToExcel();
+                    break;
                 case HorizontalBorder.Both:
                     bottom = borders[XL.XlBordersIndex.xlEdgeBottom];
                     bottom.Weight = weight.ToExcel();
@@ -356,6 +378,28 @@ namespace Bumblebee
 
             switch (vertical)
             {
+                case VerticalBorder.All:
+                    left = borders[XL.XlBordersIndex.xlEdgeLeft];
+                    left.Weight = weight.ToExcel();
+                    left.Color = color;
+                    left.LineStyle = type.ToExcel();
+
+                    betweenVertical = borders[XL.XlBordersIndex.xlInsideVertical];
+                    betweenVertical.Weight = weight.ToExcel();
+                    betweenVertical.Color = color;
+                    betweenVertical.LineStyle = type.ToExcel();
+
+                    right = borders[XL.XlBordersIndex.xlEdgeRight];
+                    right.Weight = weight.ToExcel();
+                    right.Color = color;
+                    right.LineStyle = type.ToExcel();
+                    break;
+                case VerticalBorder.Between:
+                    betweenVertical = borders[XL.XlBordersIndex.xlInsideVertical];
+                    betweenVertical.Weight = weight.ToExcel();
+                    betweenVertical.Color = color;
+                    betweenVertical.LineStyle = type.ToExcel();
+                    break;
                 case VerticalBorder.Both:
                     left = borders[XL.XlBordersIndex.xlEdgeLeft];
                     left.Weight = weight.ToExcel();
