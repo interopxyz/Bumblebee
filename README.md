@@ -30,7 +30,7 @@ _Bumblebee 3 is a single GHA library that takes advantage of the MS Office COM o
 
 ## Learn More
 
-[Plugin Documentation](https://interopxyz.gitbook.io/graphic-plus/)
+[Plugin Documentation](https://interopxyz.gitbook.io/bumblebee/)
 
 ### Dependencies
  - [Rhinoceros 3d](https://www.rhino3d.com/)
