@@ -14,15 +14,15 @@ _Bumblebee 3 is a single GHA library that takes advantage of the MS Office COM o
 
 ### Apply Graphic Formatting
 
-![definition](https://user-images.githubusercontent.com/25797596/243143157-58886356-9c48-412c-8a50-d8642a567eed.jpg)
+![definition](https://user-images.githubusercontent.com/25797596/243143414-cc582fc8-ed10-4812-a71f-df12dbadbb6b.jpg)
 
 ### Create Charts
 
-![definition](https://user-images.githubusercontent.com/25797596/243143158-3bbdc927-4dc0-4de5-9bb5-df05fab6cd38.jpg)
+![definition](https://user-images.githubusercontent.com/25797596/243143415-98ea601f-4bd8-48e4-84e9-6be419d1236c.jpg)
 
 ### Draw Shapes
 
-![definition](https://user-images.githubusercontent.com/25797596/243143156-d131168b-069f-4ff6-8719-bec61ccb4fdc.jpg)
+![definition](https://user-images.githubusercontent.com/25797596/243143417-314d1d95-9e39-423a-8c14-9adf45c57ed0.jpg)
 
 ---
 
