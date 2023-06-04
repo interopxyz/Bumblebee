@@ -1,4 +1,5 @@
 # Bumblebee
+
 Excel interoperability plugin for Grasshopper 3d
 
 _Like Bumblebee [Buy me a coffee :D](http://www.buymeacoffee.com/davidmans)_
@@ -9,9 +10,19 @@ Bumblebee is an interoperability library for Microsoft Excel and Grasshopper, fo
 
 The goal of Bumblebee is to create a series of components that allow for variable levels of engagement with Excel, from simply transferring a large set of data between the programs at high speeds, to creating graphically coordinated charts and data sets.
 
-This is a beta release and may be subject to frequent updates.
+_Bumblebee 3 is a single GHA library that takes advantage of the MS Office COM object for faster and more robust functionality._
 
-Version 3 is a single GHA library that takes advantage of the MS Office COM object for faster and more robust functionality.
+### Apply Graphic Formatting
+
+![definition](https://user-images.githubusercontent.com/25797596/243143157-58886356-9c48-412c-8a50-d8642a567eed.jpg)
+
+### Create Charts
+
+![definition](https://user-images.githubusercontent.com/25797596/243143158-3bbdc927-4dc0-4de5-9bb5-df05fab6cd38.jpg)
+
+### Draw Shapes
+
+![definition](https://user-images.githubusercontent.com/25797596/243143156-d131168b-069f-4ff6-8719-bec61ccb4fdc.jpg)
 
 ---
 
