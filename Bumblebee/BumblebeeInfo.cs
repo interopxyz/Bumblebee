@@ -19,7 +19,7 @@ namespace Bumblebee
             get
             {
                 //Return a 24x24 pixel bitmap to represent this GHA library.
-                return null;
+                return Properties.Resources.Bumblebee_Logo_24;
             }
         }
         public override string Description
@@ -27,7 +27,7 @@ namespace Bumblebee
             get
             {
                 //Return a short string describing the purpose of this GHA library.
-                return "";
+                return "Excel interoperability plugin for Grasshopper 3d";
             }
         }
         public override Guid Id
@@ -43,7 +43,7 @@ namespace Bumblebee
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "David Mans";
             }
         }
         public override string AuthorContact
@@ -51,7 +51,7 @@ namespace Bumblebee
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "interopxyz@gmail.com";
             }
         }
 
@@ -59,7 +59,7 @@ namespace Bumblebee
         {
             get
             {
-                return "1.0.1.0";
+                return "3.0.2.0";
             }
         }
     }
