@@ -24,7 +24,7 @@ namespace Bumblebee
         {
             try
             { 
-                this.ComObj = (XL.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Excel.Application"); 
+                this.ComObj = (XL.Application)Marshal2.GetActiveObject("Excel.Application"); 
             }
             catch (Exception e)
             {
