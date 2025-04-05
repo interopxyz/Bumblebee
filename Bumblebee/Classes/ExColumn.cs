@@ -65,6 +65,30 @@ namespace Bumblebee
             get { return format; }
         }
 
+        public virtual bool IsNumeric
+        {
+            get
+            {
+                foreach(string value in values)
+                {
+                    if (!double.TryParse(value, out double num)) return false;
+                }
+                return true;
+            }
+        }
+
+        public virtual bool IsFormula
+        {
+            get
+            {
+                foreach (string value in values)
+                {
+                    if (!value.ToCharArray()[0].Equals('=')) return false;
+                }
+                return true;
+            }
+        }
+
         public virtual List<string> Values
         {
             get { return values; }

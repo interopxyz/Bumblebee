@@ -14,8 +14,8 @@ namespace Bumblebee.Components.Objects.Shapes
         /// Initializes a new instance of the GH_Ex_Shp_SetText class.
         /// </summary>
         public GH_Ex_Shp_SetText()
-          : base("Shape Graphics", "Shape Graphics",
-              "Update Shape Graphics",
+          : base("Shape Text", "Shape Text",
+              "Update Shape Text",
               Constants.ShortName, Constants.SubObject)
         {
         }

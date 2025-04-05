@@ -16,6 +16,7 @@ namespace Bumblebee
 {
     public class ExRange
     {
+
         #region members
 
         protected ExCell start = new ExCell();

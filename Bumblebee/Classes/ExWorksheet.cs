@@ -95,6 +95,7 @@ namespace Bumblebee
         {
             this.ComObj.Application.ScreenUpdating = false;
         }
+
         public void UnFreeze()
         {
             this.ComObj.Application.ScreenUpdating = true;
@@ -128,7 +129,6 @@ namespace Bumblebee
 
         public ExRange WriteData(List<ExRow> data, ExCell source)
         {
-            int count = 0;
             Dictionary<string, List<string>> values = new Dictionary<string, List<string>>();
             Dictionary<string, List<string>> formats = new Dictionary<string, List<string>>();
 
@@ -168,53 +168,7 @@ namespace Bumblebee
                 columns.Add(new ExColumn(key, values[key], formats[key][0]));
             }
 
-                //int x = data[0].Values.Count;
-                //int y = data.Count;
-
-                //string[,] values = new string[y + 1, x];
-                //double[,] numbers = new double[y + 1, x];
-                //double num = 0;
-                //bool isNumeric = true;
-                //List<bool> colNumeric = new List<bool>();
-
-                //for (int i = 0; i < data[0].Columns.Count; i++)
-                //{
-                //    values[0, i] = data[0].Columns[i];
-                //    if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
-                //    colNumeric.Add(true);
-                //}
-
-                //for (int i = 0; i < x; i++)
-                //{
-                //    for (int j = 0; j < y; j++)
-                //    {
-                //        values[j + 1, i] = data[j].Values[i];
-                //        if (double.TryParse(values[j + 1, i], out num))
-                //        {
-                //            numbers[j + 1, i] = num;
-                //        }
-                //        else
-                //        {
-                //            isNumeric = false;
-                //            colNumeric[i] = false;
-                //        }
-                //    }
-                //}
-
-                //string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y);
-
-                //XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-                //if (isNumeric) SetData(rng, numbers);
-                //if (!isNumeric) SetData(rng, values);
-
-                //for (int i = 0; i < data[0].Columns.Count; i++)
-                //{
-                //    //if (colNumeric[i]) this.ComObj.Columns[source.Column + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
-                //    //this.ComObj.Columns[source.Column + i].NumberFormat = data[0].Formats[i];
-                //}
-
-                return WriteData(columns, source);
+            return WriteData(columns, source);
         }
 
         public ExRange WriteData(List<ExColumn> data, ExCell source)
@@ -227,7 +181,30 @@ namespace Bumblebee
             bool isNumeric = true;
             List<bool> colNumeric = new List<bool>();
 
-            double num;
+            Dictionary<int, List<ExColumn>> sets = new Dictionary<int, List<ExColumn>>();
+
+            int step = 0;
+            int count = 0;
+            string type = "text";
+            sets.Add(0, new List<ExColumn>());
+            foreach(ExColumn col in data)
+            {
+                string current = "text";
+                if (col.IsNumeric) current = "number";
+                if (col.IsFormula) current = "formula";
+
+                if (type != current)
+                {
+                    current = type;
+                    count = step;
+                    sets.Add(count, new List<ExColumn>());
+                }
+
+                sets[count].Add(col);
+                step += 1;
+        }
+
+        double num;
             for (int i = 0; i < y; i++)
             {
                 values[0, i] = data[i].Name;
@@ -257,10 +234,8 @@ namespace Bumblebee
 
             XL.Range rng = this.ComObj.Range[source.ToString(), target];
 
-            if (isNumeric) SetData(rng, numbers);
-            if (!isNumeric) SetData(rng, values);
-
-            //rng.NumberFormat = "General";
+            if (isNumeric) SetNumericData(rng, numbers);
+            if (!isNumeric) SetTextData(rng, values);
 
             for (int i = 0; i < data.Count; i++)
             {
@@ -296,7 +271,7 @@ namespace Bumblebee
 
             if (isNumeric)
             {
-                SetData(rng, numbers);
+                SetNumericData(rng, numbers);
             }
             else if (isFunction)
             {
@@ -304,7 +279,7 @@ namespace Bumblebee
             }
             else
             {
-                SetData(rng, values);
+                SetTextData(rng, values);
             }
 
             return GetRange(source, new ExCell(target));
@@ -320,13 +295,13 @@ namespace Bumblebee
             }
         }
 
-        protected void SetData(XL.Range rng, string[,] values)
+        protected void SetTextData(XL.Range rng, string[,] values)
         {
             rng.NumberFormat = "@";
             rng.Value2 = values;
         }
 
-        protected void SetData(XL.Range rng, double[,] values)
+        protected void SetNumericData(XL.Range rng, double[,] values)
         {
             rng.NumberFormat = "0.00";
             rng.Value2 = values;
