@@ -59,7 +59,7 @@ namespace Bumblebee
         {
             get
             {
-                return "3.0.2.0";
+                return "3.0.5.0";
             }
         }
     }

@@ -17,6 +17,42 @@ namespace Bumblebee
     public static class BbExtensions
     {
 
+        #region data
+
+        public static string[] Flatten(this string[,] input)
+        {
+            List<string> output = new List<string>();
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    output.Add(input[i, j]);
+                }
+            }
+            return output.ToArray();
+        }
+  
+        public static string ToVbaArray(this string[,] input)
+        {
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+            List<string> c = new List<string>();
+            for (int i = 0; i < cols; i++)
+            {
+                List<string> r = new List<string>();
+                for (int j = 0; j < rows; j++)
+                {
+                    r.Add(input[j, i].Remove(0,1));
+                }
+                c.Add(String.Join(",", r));
+            }
+            return "{" + string.Join(";", c) + "}";
+        }
+
+        #endregion
+
         #region controls
 
         public static ExShape AddButton(this ExWorksheet sheet, string name, string title, string macro, Rg.Rectangle3d boundary)

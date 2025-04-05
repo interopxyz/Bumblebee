@@ -97,9 +97,94 @@ namespace Bumblebee
             get { return shapeType; }
         }
 
+        public virtual string FontFamily
+        {
+            get { return this.ComObj.TextFrame.Characters().Font.Name; }
+            set { this.ComObj.TextFrame.Characters().Font.Name = value; }
+        }
+
+        public virtual double FontSize
+        {
+            get { return this.ComObj.TextFrame.Characters().Font.Size; }
+            set { this.ComObj.TextFrame.Characters().Font.Size = value; }
+        }
+
+        public virtual Sd.Color FontColor
+        {
+            get { return Sd.ColorTranslator.FromOle((int)this.ComObj.TextFrame.Characters().Font.Color); }
+            set { this.ComObj.TextFrame.Characters().Font.Color = value; }
+        }
+
+        public virtual Justification FontJustification
+        {
+            set
+            {
+                this.ComObj.TextFrame.HorizontalAlignment = value.ToExcelHalign();
+                this.ComObj.TextFrame.VerticalAlignment = value.ToExcelValign();
+            }
+            get
+            {
+                int align = 0;
+                switch (this.ComObj.TextFrame.VerticalAlignment)
+                {
+                    case XL.XlVAlign.xlVAlignCenter:
+                        align = 3;
+                        break;
+                    case XL.XlVAlign.xlVAlignTop:
+                        align = 6;
+                        break;
+                }
+
+                switch (this.ComObj.TextFrame.HorizontalAlignment)
+                {
+                    case XL.XlHAlign.xlHAlignLeft:
+                    case XL.XlHAlign.xlHAlignGeneral:
+                        break;
+                    case XL.XlHAlign.xlHAlignRight:
+                        align += 2;
+                        break;
+                    default:
+                        align += 1;
+                        break;
+                }
+                return (Justification)align;
+            }
+        }
+
+        public bool Bold
+        {
+            get { return this.ComObj.TextFrame.Characters().Font.Bold; }
+            set { this.ComObj.TextFrame.Characters().Font.Bold = value; }
+        }
+
+        public bool Italic
+        {
+            get { return this.ComObj.TextFrame.Characters().Font.Italic; }
+            set { this.ComObj.TextFrame.Characters().Font.Italic = value; }
+        }
+
+
         #endregion
 
         #region methods
+
+        public string GetText()
+        {
+            string output = string.Empty;
+            if (this.shapeType != ShapeTypes.Line)
+            {
+                output = this.ComObj.TextFrame.Characters().Text;
+            }
+            return output;
+        }
+
+        public void SetText(string text)
+        {
+            if (this.shapeType != ShapeTypes.Line)
+            {
+                this.ComObj.TextFrame.Characters().Text = text;
+            }
+        }
 
         public void SetFillColor(Sd.Color color)
         {

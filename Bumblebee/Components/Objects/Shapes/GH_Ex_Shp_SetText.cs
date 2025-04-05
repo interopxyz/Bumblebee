@@ -1,21 +1,22 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using Sd = System.Drawing;
 
-namespace Bumblebee.Components
+namespace Bumblebee.Components.Objects.Shapes
 {
-    public class GH_Ex_SetFill : GH_Ex_Rng__Base
+    public class GH_Ex_Shp_SetText : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the GH_Ex_Vs_ColorCell class.
+        /// Initializes a new instance of the GH_Ex_Shp_SetText class.
         /// </summary>
-        public GH_Ex_SetFill()
-          : base("Range Color", "Rng Clr",
-              "Sets the Range fill color properties",
-              Constants.ShortName, Constants.SubGraphics)
+        public GH_Ex_Shp_SetText()
+          : base("Shape Graphics", "Shape Graphics",
+              "Update Shape Graphics",
+              Constants.ShortName, Constants.SubObject)
         {
         }
 
@@ -24,7 +25,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override GH_Exposure Exposure
         {
-            get { return GH_Exposure.primary; }
+            get { return GH_Exposure.quinary; }
         }
 
         /// <summary>
@@ -32,11 +33,9 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            base.RegisterInputParams(pManager);
-            pManager.AddColourParameter("Range Color", "C", "Range color", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Clear", "X", "If true, clears the range fill before applying new formatting", GH_ParamAccess.item);
-            pManager[3].Optional = true;
-
+            pManager.AddGenericParameter(Constants.Shape.Name, Constants.Shape.NickName, Constants.Shape.Input, GH_ParamAccess.item);
+            pManager.AddTextParameter("Text Content", "T", "The content Text for the Shape", GH_ParamAccess.item);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -44,7 +43,8 @@ namespace Bumblebee.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            base.RegisterOutputParams(pManager);
+            pManager.AddGenericParameter(Constants.Shape.Name, Constants.Shape.NickName, Constants.Shape.Output, GH_ParamAccess.item);
+            pManager.AddTextParameter("Text Content", "T", "The content Text for the Shape", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,24 +53,15 @@ namespace Bumblebee.Components
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            IGH_Goo gooS = null;
-            DA.GetData(0, ref gooS);
-            ExWorksheet worksheet = null;
-            bool hasWs = gooS.TryGetWorksheet(ref worksheet);
+            ExShape shape = null;
+            if (!DA.GetData(0, ref shape)) return;
+            shape = new ExShape(shape);
 
-            IGH_Goo gooR = null;
-            if (!DA.GetData(1, ref gooR)) return;
-            ExRange range = null;
-            if (!gooR.TryGetRange(ref range, worksheet)) return;
-            if (!hasWs) worksheet = range.Worksheet;
+            string txt = string.Empty;
+            if (DA.GetData(1, ref txt)) shape.SetText(txt);
 
-            bool clear = false;
-            if (DA.GetData(3, ref clear)) if (clear) range.ClearFill();
-
-            Sd.Color color = Sd.Color.LightGray;
-            if (DA.GetData(2, ref color)) range.Background = color;
-
-            DA.SetData(0, range);
+            DA.SetData(0, shape);
+            DA.SetData(1, shape.GetText());
         }
 
         /// <summary>
@@ -82,7 +73,7 @@ namespace Bumblebee.Components
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.BB_Graphics_Fill;
+                return Properties.Resources.BB_Shape_Text;
             }
         }
 
@@ -91,7 +82,7 @@ namespace Bumblebee.Components
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("8f76e2b5-87d7-49fa-8631-9f5d6bc31d29"); }
+            get { return new Guid("660cf305-168c-487c-98c9-6266aae000cf"); }
         }
     }
 }

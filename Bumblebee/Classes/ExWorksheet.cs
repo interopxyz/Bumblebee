@@ -278,25 +278,46 @@ namespace Bumblebee
 
             string[,] values = new string[y, x];
             double[,] numbers = new double[y, x];
-            double num = 0;
             bool isNumeric = true;
+            bool isFunction = true;
 
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
                     values[j, i] = data[i][j].Value;
-                    if (double.TryParse(values[j, i], out num)) numbers[j, i] = num; else isNumeric = false;
+                    if (double.TryParse(values[j, i], out double num)) numbers[j, i] = num; else isNumeric = false;
+                    if (!(values[j, i].ToCharArray()[0].Equals('='))) isFunction = false;
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y - 1);
             XL.Range rng = this.ComObj.Range[source.ToString(), target];
 
-            if (isNumeric) SetData(rng,numbers);
-            if (!isNumeric) SetData(rng, values);
+            if (isNumeric)
+            {
+                SetData(rng, numbers);
+            }
+            else if (isFunction)
+            {
+                SetFunction(rng, values);
+            }
+            else
+            {
+                SetData(rng, values);
+            }
 
             return GetRange(source, new ExCell(target));
+        }
+
+        protected void SetFunction(XL.Range rng, string[,] formulas)
+        {
+            string[] f = formulas.Flatten();
+            int i = 0;
+            foreach (XL.Range cell in rng.Cells)
+            {
+                cell.Formula = f[i++];
+            }
         }
 
         protected void SetData(XL.Range rng, string[,] values)
