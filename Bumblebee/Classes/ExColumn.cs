@@ -94,6 +94,20 @@ namespace Bumblebee
             get { return values; }
         }
 
+        public virtual List<double> Numbers
+        {
+            get
+            {
+                List<double> numbers = new List<double>();
+                foreach(string v in values)
+                {
+                    double.TryParse(v, out double num);
+                    numbers.Add(num);
+                }
+                return numbers;
+            }
+        }
+
         #endregion
 
         #region methods

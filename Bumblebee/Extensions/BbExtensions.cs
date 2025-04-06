@@ -19,6 +19,71 @@ namespace Bumblebee
 
         #region data
 
+        public static string[,] To2dTextArray(this List<ExColumn> input)
+        {
+            int x = input.Count;
+            int y = input[0].Values.Count;
+            string[,] output = new string[x, y];
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    output[i, j] = input[i].Values[j];
+                }
+            }
+
+            return output;
+        }
+
+        public static double[,] To2dNumberArray(this List<ExColumn> input)
+        {
+            int x = input.Count;
+            int y = input[0].Values.Count;
+            double[,] output = new double[x, y];
+            for (int i = 0; i < x; i++)
+            {
+                List<double> nums = input[i].Numbers;
+                for (int j = 0; j < y; j++)
+                {
+                    output[i, j] = nums[j];
+                }
+            }
+
+            return output;
+        }
+
+        public static string[,] To2dArray(this List<List<string>> input)
+        {
+            int x = input.Count;
+            int y = input[0].Count;
+            string[,] output = new string[x, y];
+            for(int i = 0; i < x; i++)
+            {
+                for(int j = 0; j < y; j++)
+                {
+                    output[i, j] = input[i][j];
+                }
+            }
+
+            return output;
+        }
+
+        public static double[,] To2dArray(this List<List<double>> input)
+        {
+            int x = input.Count;
+            int y = input[0].Count;
+            double[,] output = new double[x, y];
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    output[i, j] = input[i][j];
+                }
+            }
+
+            return output;
+        }
+
         public static string[] Flatten(this string[,] input)
         {
             List<string> output = new List<string>();
@@ -31,6 +96,7 @@ namespace Bumblebee
                     output.Add(input[i, j]);
                 }
             }
+
             return output.ToArray();
         }
   
@@ -48,6 +114,7 @@ namespace Bumblebee
                 }
                 c.Add(String.Join(",", r));
             }
+
             return "{" + string.Join(";", c) + "}";
         }
 

@@ -176,18 +176,15 @@ namespace Bumblebee
             int x = data[0].Values.Count;
             int y = data.Count;
 
-            string[,] values = new string[x+1, y];
-            double[,] numbers = new double[x+1, y];
-            bool isNumeric = true;
             List<bool> colNumeric = new List<bool>();
 
             Dictionary<int, List<ExColumn>> sets = new Dictionary<int, List<ExColumn>>();
 
             int step = 0;
             int count = 0;
-            string type = "text";
-            sets.Add(0, new List<ExColumn>());
-            foreach(ExColumn col in data)
+            string type = "none";
+
+            foreach (ExColumn col in data)
             {
                 string current = "text";
                 if (col.IsNumeric) current = "number";
@@ -201,46 +198,37 @@ namespace Bumblebee
                 }
 
                 sets[count].Add(col);
-                step += 1;
+                step ++;
         }
 
-        double num;
-            for (int i = 0; i < y; i++)
+            int c = source.Column;
+            int r = source.Row;
+            foreach (int key in sets.Keys)
             {
-                values[0, i] = data[i].Name;
-                if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
-                colNumeric.Add(true);
-            }
+                string a = Helper.GetCellAddress(c + key, r);
+                string b = Helper.GetCellAddress(c + key+sets[key].Count-1, r + x-1);
 
-            for (int i = 0; i < x; i++)
-            {
-                for (int j = 0; j < y; j++)
+                if (sets[key][0].IsFormula)
                 {
-                    values[i + 1, j] = data[j].Values[i];
-                    if (double.TryParse(values[i + 1, j], out num))
-                    {
-                        numbers[i + 1, j] = num;
-                    }
-                    else
-                    {
-                        isNumeric = false;
-                        colNumeric[j] = false;
-                    }
-                    
+                    SetFunction(this.GetRange(new ExCell(a), new ExCell(b)).ComObj,sets[key].To2dTextArray());
+                }
+                else if (sets[key][0].IsNumeric)
+                {
+                    SetNumericData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dNumberArray());
+                }
+                else
+                {
+                    SetTextData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dTextArray());
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + y - 1, source.Row + x);
-
             XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-            if (isNumeric) SetNumericData(rng, numbers);
-            if (!isNumeric) SetTextData(rng, values);
 
             for (int i = 0; i < data.Count; i++)
             {
                 if(colNumeric[i]) this.ComObj.Range[new ExCell(source.Column+i,source.Row+1).ToString(), new ExCell(source.Column + i, source.Row+x).ToString()].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
-                    this.ComObj.Columns[source.Column + i].NumberFormat = data[i].Format;
+                this.ComObj.Columns[source.Column + i].NumberFormat = data[i].Format;
             }
 
             return new ExRange(rng);
@@ -248,62 +236,38 @@ namespace Bumblebee
 
         public ExRange WriteData(List<List<GH_String>> data, ExCell source)
         {
-            int y = data[0].Count;
-            int x = data.Count;
-
-            string[,] values = new string[y, x];
-            double[,] numbers = new double[y, x];
-            bool isNumeric = true;
-            bool isFunction = true;
-
-            for (int i = 0; i < x; i++)
+            List<ExColumn> columns = new List<ExColumn>();
+            foreach(List<GH_String> values in data)
             {
-                for (int j = 0; j < y; j++)
-                {
-                    values[j, i] = data[i][j].Value;
-                    if (double.TryParse(values[j, i], out double num)) numbers[j, i] = num; else isNumeric = false;
-                    if (!(values[j, i].ToCharArray()[0].Equals('='))) isFunction = false;
-                }
+                List<string> text = new List<string>();
+                foreach (GH_String val in values) text.Add(val.Value);
+                columns.Add(new ExColumn(text));
             }
 
-            string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y - 1);
-            XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-            if (isNumeric)
-            {
-                SetNumericData(rng, numbers);
-            }
-            else if (isFunction)
-            {
-                SetFunction(rng, values);
-            }
-            else
-            {
-                SetTextData(rng, values);
-            }
-
-            return GetRange(source, new ExCell(target));
+            return this.WriteData(columns, source);
         }
 
-        protected void SetFunction(XL.Range rng, string[,] formulas)
+        protected void SetFunction(XL.Range rng, string[,] formulas, string format = "General")
         {
+            rng.NumberFormat = format;
             string[] f = formulas.Flatten();
             int i = 0;
             foreach (XL.Range cell in rng.Cells)
             {
+                cell.NumberFormat = "General";
                 cell.Formula = f[i++];
             }
         }
 
-        protected void SetTextData(XL.Range rng, string[,] values)
+        protected void SetTextData(XL.Range rng, string[,] values, string format = "@")
         {
-            rng.NumberFormat = "@";
+            rng.NumberFormat = format;
             rng.Value2 = values;
         }
 
-        protected void SetNumericData(XL.Range rng, double[,] values)
+        protected void SetNumericData(XL.Range rng, double[,] values, string format = "0.00")
         {
-            rng.NumberFormat = "0.00";
+            rng.NumberFormat = format;
             rng.Value2 = values;
         }
 
