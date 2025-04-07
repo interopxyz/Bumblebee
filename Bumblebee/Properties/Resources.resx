@@ -304,6 +304,9 @@
   <data name="BB_Shape_Flow_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Shape_Flow-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BB_Shape_Font" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Shape_Font.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BB_Shape_Geometry_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Shape_Geometry-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -318,6 +321,9 @@
   </data>
   <data name="BB_Shape_Star_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Shape_Star-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BB_Shape_Text" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BB-Shape_Text.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="BB_Sheets_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BB-Sheets-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

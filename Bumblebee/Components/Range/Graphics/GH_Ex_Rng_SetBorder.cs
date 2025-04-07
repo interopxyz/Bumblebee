@@ -44,6 +44,8 @@ namespace Bumblebee.Components
             pManager[5].Optional = true;
             pManager.AddIntegerParameter("Vertical", "V", "Border vertical side", GH_ParamAccess.item);
             pManager[6].Optional = true;
+            pManager.AddBooleanParameter("Clear", "X", "If true, clears the range border before applying new formatting", GH_ParamAccess.item);
+            pManager[7].Optional = true;
 
             Param_Integer paramA = (Param_Integer)pManager[3];
             foreach (BorderWeight value in Enum.GetValues(typeof(BorderWeight)))
@@ -95,22 +97,26 @@ namespace Bumblebee.Components
             if (!gooR.TryGetRange(ref range, worksheet)) return;
             if (!hasWs) worksheet = range.Worksheet;
 
+            bool clear = false;
+            if (DA.GetData(7, ref clear)) if (clear) range.ClearBorders();
+
+            bool update = false;
             Sd.Color color = Sd.Color.Black;
-            DA.GetData(2, ref color);
+            if(DA.GetData(2, ref color)) update = true;
 
             int weight = 1;
-            DA.GetData(3, ref weight);
+            if (DA.GetData(3, ref weight)) update = true;
 
             int type = 1;
-            DA.GetData(4,ref type);
+            if (DA.GetData(4, ref type)) update = true;
 
             int horizontal = 3;
-            DA.GetData(5, ref horizontal);
+            if (DA.GetData(5, ref horizontal)) update = true;
 
             int vertical = 3;
-            DA.GetData(6, ref vertical);
+            if (DA.GetData(6, ref vertical)) update = true;
 
-            range.SetBorder(color, (BorderWeight)weight, (LineType)type, (HorizontalBorder)horizontal, (VerticalBorder)vertical);
+            if(update)range.SetBorder(color, (BorderWeight)weight, (LineType)type, (HorizontalBorder)horizontal, (VerticalBorder)vertical);
 
             DA.SetData(0, range);
         }

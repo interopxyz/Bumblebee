@@ -1,4 +1,5 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Parameters;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Bumblebee.Components
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Column Names", "N", "The names of the columns", GH_ParamAccess.list);
-            pManager.AddTextParameter("Column Values", "C", "The column values corresponding to each row", GH_ParamAccess.list);
+            pManager.AddTextParameter("Column Values", "V", "The column values corresponding to each row", GH_ParamAccess.list);
             pManager.AddTextParameter("Format", "F", "A MS Office Number Format" + 
                 Environment.NewLine + "Examples (\"General\", \"hh: mm:ss\", \"$#,##0.0\" " +
                 Environment.NewLine + "https://support.microsoft.com/en-us/office/number-format-codes-5026bbd6-04bc-48cd-bf33-80f18b4eae68?ui=en-us&rs=en-us&ad=us", GH_ParamAccess.list);

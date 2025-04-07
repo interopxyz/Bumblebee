@@ -683,6 +683,16 @@ namespace Bumblebee.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BB_Shape_Font {
+            get {
+                object obj = ResourceManager.GetObject("BB_Shape_Font", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BB_Shape_Geometry_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Shape_Geometry_01", resourceCulture);
@@ -726,6 +736,16 @@ namespace Bumblebee.Properties {
         internal static System.Drawing.Bitmap BB_Shape_Star_01 {
             get {
                 object obj = ResourceManager.GetObject("BB_Shape_Star_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BB_Shape_Text {
+            get {
+                object obj = ResourceManager.GetObject("BB_Shape_Text", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

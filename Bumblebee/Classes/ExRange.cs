@@ -16,6 +16,7 @@ namespace Bumblebee
 {
     public class ExRange
     {
+
         #region members
 
         protected ExCell start = new ExCell();
@@ -306,6 +307,16 @@ namespace Bumblebee
         public void ClearFormat()
         {
             this.ComObj.ClearFormats();
+        }
+
+        public void ClearBorders()
+        {
+            this.ComObj.Borders.LineStyle = XL.XlLineStyle.xlLineStyleNone;
+        }
+
+        public void ClearFill()
+        {
+            this.ComObj.Cells.Interior.Pattern = XL.XlPattern.xlPatternNone;
         }
 
         public void SetFont(string name, double size, Sd.Color color, Justification justification, bool bold, bool italic)

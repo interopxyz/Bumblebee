@@ -96,6 +96,8 @@
     <Compile Include="Components\Charting\GH_Ex_Cht_SetDecorate.cs" />
     <Compile Include="Components\Charting\GH_Ex_Cht_SetGraphics.cs" />
     <Compile Include="Components\Data\GH_Ex_Dst_ReadData.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_SetFont.cs" />
+    <Compile Include="Components\Objects\Shapes\GH_Ex_Shp_SetText.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetBorder.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_SetFont.cs" />
     <Compile Include="Components\Range\Graphics\GH_Ex_Rng_GetBorder.cs" />
@@ -456,6 +458,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Bumblebee-Logo-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BB-Shape_Font.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

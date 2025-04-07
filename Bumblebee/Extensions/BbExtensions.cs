@@ -17,6 +17,109 @@ namespace Bumblebee
     public static class BbExtensions
     {
 
+        #region data
+
+        public static string[,] To2dTextArray(this List<ExColumn> input)
+        {
+            int x = input.Count;
+            int y = input[0].Values.Count;
+            string[,] output = new string[y, x];
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    output[j, i] = input[i].Values[j];
+                }
+            }
+
+            return output;
+        }
+
+        public static double[,] To2dNumberArray(this List<ExColumn> input)
+        {
+            int x = input.Count;
+            int y = input[0].Values.Count;
+            double[,] output = new double[y, x];
+            for (int i = 0; i < x; i++)
+            {
+                List<double> nums = input[i].Numbers;
+                for (int j = 0; j < y; j++)
+                {
+                    output[j, i] = nums[j];
+                }
+            }
+
+            return output;
+        }
+
+        public static string[,] To2dArray(this List<List<string>> input)
+        {
+            int x = input.Count;
+            int y = input[0].Count;
+            string[,] output = new string[x, y];
+            for(int i = 0; i < x; i++)
+            {
+                for(int j = 0; j < y; j++)
+                {
+                    output[i, j] = input[i][j];
+                }
+            }
+
+            return output;
+        }
+
+        public static double[,] To2dArray(this List<List<double>> input)
+        {
+            int x = input.Count;
+            int y = input[0].Count;
+            double[,] output = new double[x, y];
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    output[i, j] = input[i][j];
+                }
+            }
+
+            return output;
+        }
+
+        public static string[] Flatten(this string[,] input)
+        {
+            List<string> output = new List<string>();
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    output.Add(input[i, j]);
+                }
+            }
+
+            return output.ToArray();
+        }
+  
+        public static string ToVbaArray(this string[,] input)
+        {
+            int rows = input.GetLength(0);
+            int cols = input.GetLength(1);
+            List<string> c = new List<string>();
+            for (int i = 0; i < cols; i++)
+            {
+                List<string> r = new List<string>();
+                for (int j = 0; j < rows; j++)
+                {
+                    r.Add(input[j, i].Remove(0,1));
+                }
+                c.Add(String.Join(",", r));
+            }
+
+            return "{" + string.Join(";", c) + "}";
+        }
+
+        #endregion
+
         #region controls
 
         public static ExShape AddButton(this ExWorksheet sheet, string name, string title, string macro, Rg.Rectangle3d boundary)

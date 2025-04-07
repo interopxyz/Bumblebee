@@ -95,6 +95,7 @@ namespace Bumblebee
         {
             this.ComObj.Application.ScreenUpdating = false;
         }
+
         public void UnFreeze()
         {
             this.ComObj.Application.ScreenUpdating = true;
@@ -128,7 +129,6 @@ namespace Bumblebee
 
         public ExRange WriteData(List<ExRow> data, ExCell source)
         {
-            int count = 0;
             Dictionary<string, List<string>> values = new Dictionary<string, List<string>>();
             Dictionary<string, List<string>> formats = new Dictionary<string, List<string>>();
 
@@ -168,53 +168,7 @@ namespace Bumblebee
                 columns.Add(new ExColumn(key, values[key], formats[key][0]));
             }
 
-                //int x = data[0].Values.Count;
-                //int y = data.Count;
-
-                //string[,] values = new string[y + 1, x];
-                //double[,] numbers = new double[y + 1, x];
-                //double num = 0;
-                //bool isNumeric = true;
-                //List<bool> colNumeric = new List<bool>();
-
-                //for (int i = 0; i < data[0].Columns.Count; i++)
-                //{
-                //    values[0, i] = data[0].Columns[i];
-                //    if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
-                //    colNumeric.Add(true);
-                //}
-
-                //for (int i = 0; i < x; i++)
-                //{
-                //    for (int j = 0; j < y; j++)
-                //    {
-                //        values[j + 1, i] = data[j].Values[i];
-                //        if (double.TryParse(values[j + 1, i], out num))
-                //        {
-                //            numbers[j + 1, i] = num;
-                //        }
-                //        else
-                //        {
-                //            isNumeric = false;
-                //            colNumeric[i] = false;
-                //        }
-                //    }
-                //}
-
-                //string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y);
-
-                //XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-                //if (isNumeric) SetData(rng, numbers);
-                //if (!isNumeric) SetData(rng, values);
-
-                //for (int i = 0; i < data[0].Columns.Count; i++)
-                //{
-                //    //if (colNumeric[i]) this.ComObj.Columns[source.Column + i].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
-                //    //this.ComObj.Columns[source.Column + i].NumberFormat = data[0].Formats[i];
-                //}
-
-                return WriteData(columns, source);
+            return WriteData(columns, source);
         }
 
         public ExRange WriteData(List<ExColumn> data, ExCell source)
@@ -222,92 +176,92 @@ namespace Bumblebee
             int x = data[0].Values.Count;
             int y = data.Count;
 
-            string[,] values = new string[x+1, y];
-            double[,] numbers = new double[x+1, y];
-            bool isNumeric = true;
             List<bool> colNumeric = new List<bool>();
 
-            double num;
-            for (int i = 0; i < y; i++)
-            {
-                values[0, i] = data[i].Name;
-                if (double.TryParse(values[0, i], out num)) numbers[0, i] = num; else isNumeric = false;
-                colNumeric.Add(true);
-            }
+            Dictionary<int, List<ExColumn>> sets = new Dictionary<int, List<ExColumn>>();
 
-            for (int i = 0; i < x; i++)
+            int step = 0;
+            int count = 0;
+            string type = "none";
+
+            foreach (ExColumn col in data)
             {
-                for (int j = 0; j < y; j++)
+                string current = "text";
+                if (col.IsNumeric) current = "number";
+                if (col.IsFormula) current = "formula";
+
+                if (type != current)
                 {
-                    values[i + 1, j] = data[j].Values[i];
-                    if (double.TryParse(values[i + 1, j], out num))
-                    {
-                        numbers[i + 1, j] = num;
-                    }
-                    else
-                    {
-                        isNumeric = false;
-                        colNumeric[j] = false;
-                    }
-                    
+                    type = current;
+                    count = step;
+                    sets.Add(count, new List<ExColumn>());
+                }
+
+                sets[count].Add(col);
+                step ++;
+        }
+
+            int c = source.Column;
+            int r = source.Row;
+            foreach (int key in sets.Keys)
+            {
+                string a = Helper.GetCellAddress(c + key, r);
+                string b = Helper.GetCellAddress(c + key+sets[key].Count-1, r + x-1);
+
+                if (sets[key][0].IsFormula)
+                {
+                    SetFunction(this.GetRange(new ExCell(a), new ExCell(b)).ComObj,sets[key].To2dTextArray(),sets[key][0].Format);
+                }
+                else if (sets[key][0].IsNumeric)
+                {
+                    SetNumericData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dNumberArray(), sets[key][0].Format);
+                }
+                else
+                {
+                    SetTextData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dTextArray(), sets[key][0].Format);
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + y - 1, source.Row + x);
-
             XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-            if (isNumeric) SetData(rng, numbers);
-            if (!isNumeric) SetData(rng, values);
-
-            //rng.NumberFormat = "General";
-
-            for (int i = 0; i < data.Count; i++)
-            {
-                if(colNumeric[i]) this.ComObj.Range[new ExCell(source.Column+i,source.Row+1).ToString(), new ExCell(source.Column + i, source.Row+x).ToString()].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
-                    this.ComObj.Columns[source.Column + i].NumberFormat = data[i].Format;
-            }
 
             return new ExRange(rng);
         }
 
         public ExRange WriteData(List<List<GH_String>> data, ExCell source)
         {
-            int y = data[0].Count;
-            int x = data.Count;
-
-            string[,] values = new string[y, x];
-            double[,] numbers = new double[y, x];
-            double num = 0;
-            bool isNumeric = true;
-
-            for (int i = 0; i < x; i++)
+            List<ExColumn> columns = new List<ExColumn>();
+            foreach(List<GH_String> values in data)
             {
-                for (int j = 0; j < y; j++)
-                {
-                    values[j, i] = data[i][j].Value;
-                    if (double.TryParse(values[j, i], out num)) numbers[j, i] = num; else isNumeric = false;
-                }
+                List<string> text = new List<string>();
+                foreach (GH_String val in values) text.Add(val.Value);
+                columns.Add(new ExColumn(text));
             }
 
-            string target = Helper.GetCellAddress(source.Column + x - 1, source.Row + y - 1);
-            XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-            if (isNumeric) SetData(rng,numbers);
-            if (!isNumeric) SetData(rng, values);
-
-            return GetRange(source, new ExCell(target));
+            return this.WriteData(columns, source);
         }
 
-        protected void SetData(XL.Range rng, string[,] values)
+        protected void SetFunction(XL.Range rng, string[,] formulas, string format = "General")
         {
-            rng.NumberFormat = "@";
+            rng.NumberFormat = format;
+            string[] f = formulas.Flatten();
+            int i = 0;
+            foreach (XL.Range cell in rng.Cells)
+            {
+                cell.NumberFormat = "General";
+                cell.Formula = f[i++];
+            }
+        }
+
+        protected void SetTextData(XL.Range rng, string[,] values, string format = "General")
+        {
+            rng.NumberFormat = format;
             rng.Value2 = values;
         }
 
-        protected void SetData(XL.Range rng, double[,] values)
+        protected void SetNumericData(XL.Range rng, double[,] values, string format = "General")
         {
-            rng.NumberFormat = "0.00";
+            rng.NumberFormat = format;
             rng.Value2 = values;
         }
 
