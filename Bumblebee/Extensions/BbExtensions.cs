@@ -23,12 +23,12 @@ namespace Bumblebee
         {
             int x = input.Count;
             int y = input[0].Values.Count;
-            string[,] output = new string[x, y];
+            string[,] output = new string[y, x];
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    output[i, j] = input[i].Values[j];
+                    output[j, i] = input[i].Values[j];
                 }
             }
 
@@ -39,13 +39,13 @@ namespace Bumblebee
         {
             int x = input.Count;
             int y = input[0].Values.Count;
-            double[,] output = new double[x, y];
+            double[,] output = new double[y, x];
             for (int i = 0; i < x; i++)
             {
                 List<double> nums = input[i].Numbers;
                 for (int j = 0; j < y; j++)
                 {
-                    output[i, j] = nums[j];
+                    output[j, i] = nums[j];
                 }
             }
 

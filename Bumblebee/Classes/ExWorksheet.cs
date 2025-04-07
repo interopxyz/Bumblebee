@@ -192,7 +192,7 @@ namespace Bumblebee
 
                 if (type != current)
                 {
-                    current = type;
+                    type = current;
                     count = step;
                     sets.Add(count, new List<ExColumn>());
                 }
@@ -210,26 +210,20 @@ namespace Bumblebee
 
                 if (sets[key][0].IsFormula)
                 {
-                    SetFunction(this.GetRange(new ExCell(a), new ExCell(b)).ComObj,sets[key].To2dTextArray());
+                    SetFunction(this.GetRange(new ExCell(a), new ExCell(b)).ComObj,sets[key].To2dTextArray(),sets[key][0].Format);
                 }
                 else if (sets[key][0].IsNumeric)
                 {
-                    SetNumericData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dNumberArray());
+                    SetNumericData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dNumberArray(), sets[key][0].Format);
                 }
                 else
                 {
-                    SetTextData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dTextArray());
+                    SetTextData(this.GetRange(new ExCell(a), new ExCell(b)).ComObj, sets[key].To2dTextArray(), sets[key][0].Format);
                 }
             }
 
             string target = Helper.GetCellAddress(source.Column + y - 1, source.Row + x);
             XL.Range rng = this.ComObj.Range[source.ToString(), target];
-
-            for (int i = 0; i < data.Count; i++)
-            {
-                if(colNumeric[i]) this.ComObj.Range[new ExCell(source.Column+i,source.Row+1).ToString(), new ExCell(source.Column + i, source.Row+x).ToString()].TextToColumns(Type.Missing, XL.XlTextParsingType.xlDelimited, XL.XlTextQualifier.xlTextQualifierNone);
-                this.ComObj.Columns[source.Column + i].NumberFormat = data[i].Format;
-            }
 
             return new ExRange(rng);
         }
@@ -259,13 +253,13 @@ namespace Bumblebee
             }
         }
 
-        protected void SetTextData(XL.Range rng, string[,] values, string format = "@")
+        protected void SetTextData(XL.Range rng, string[,] values, string format = "General")
         {
             rng.NumberFormat = format;
             rng.Value2 = values;
         }
 
-        protected void SetNumericData(XL.Range rng, double[,] values, string format = "0.00")
+        protected void SetNumericData(XL.Range rng, double[,] values, string format = "General")
         {
             rng.NumberFormat = format;
             rng.Value2 = values;
